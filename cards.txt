@@ -1,0 +1,28 @@
+Gong::METAL::After your PRAYER action, you may draw three cards to your waiting area. If you do, place this there too.
+Pinwheel::PAPER::At night, you may return a card from your hand. If you do, you may draw a card to your waiting area.
+Kite::CLOTH::In the morning, you may transfer a card from your hand to any craft bench. If you do, treat Kite as an exact copy of one of that player's works until the end of your turn.
+Doll::PAPER::Instead of choosing a new task from your hand, you may move an opponent's task to be your new task. It gives you one extra action.
+Dice::CLAY::Before your TAILOR action, you may reveal the top card of the deck. If its value is equal to the number of cards in your hand, complete it for free.
+Shuriken::METAL::After you complete this, take a work from an opponent that has more works than you.
+Vase::CLAY::After you complete this, transfer two materials from the floor to your sales.
+Bench::STONE::+2 points for each of your STONE works.
+Plane::PAPER::After a POTTER action, if you collected a material, you may move one of your works from one wing to the other.
+Poem::PAPER::After you complete a PAPER work, you may return it. If you do, complete the top card of the deck for free.
+Chopsticks::METAL::Instead of discarding your previous task to the floor, you may move it to your sales.
+Pin::METAL::In the morning, you may take a TAILOR action.
+Tower::STONE::Opponents skip your CLERK, MONK, or POTTER tasks unless they reveal a matching card from their hand.
+Flute::METAL::For a MONK or POTTER action, you may hire or collect an opponent's PAPER work or task instead of a card from the floor.
+Turtle::METAL::If you have a work of each type of material at any time, you win.
+Clock::CLOTH::After you complete a work, you may return it. If you do, complete a METAL work from your hand for free.
+Puppet::CLOTH::Before your TAILOR action, you may return this to trade your hand with an opponent. Place their hand in your waiting area.
+Sword::METAL::For a MONK action, you may hire an opponent's helper if they have more helpers than you. For a POTTER action, you may collect an opponent's material if they have more materials than you.
+Stool::STONE::After you complete a STONE, CLAY, or METAL work, you may draw a card to your waiting area.
+Ring::METAL::After a CLERK action, if you sold a material, you may take a sale from an opponent that has more sales than you.
+Brick::CLAY::For SMITH actions, treat all players' tasks as if they were in your hand to use as support.
+Curtain::PAPER::Opponents skip your TAILOR or SMITH tasks unless they reveal a matching card from their hand.
+Bell::METAL::For a CLERK action, you may sell the top card of the deck instead of a card from your craft bench.
+Figurine::CLAY::Before using each opponent's task, you may reveal a matching card from your hand to gain one extra action for that task.
+Cup::CLAY::After your PRAYER action, you may return this. If you do, end the game.
+Statue::STONE::After you complete this, transfer two materials from the floor to your craft bench.
+Coin::METAL::Count all of the cards in your hand an extra time for backorders at the end of the game.
+Robe::CLOTH::For a CLERK action, you may sell all materials of one type from your craft bench.
