@@ -62,7 +62,7 @@ tasks = {Types.PAPER: Events.CLERK,
          Types.METAL: Events.SMITH}
 
 def str_list(l, f=lambda i:i.name):
-    return ", ".join(tc.colored(f(i), colors[i.typ]) for i in list)
+    return ", ".join(tc.colored(f(i), colors[i.typ]) for i in l)
 
 class Card:
     def __init__(self, typ, name, ability):
@@ -179,6 +179,7 @@ class Player:
 
         s += "\n\n"
         s += ", ".join(tc.colored(i.name, colors[i.typ]) for i in self.hand)
+        s += "\n"
         
  #       s = s.upper()
         return s
@@ -245,7 +246,7 @@ class Game:
     def __init__(self, n_players=3):
         self.deck = list(map(Card.of, open("cards.txt").readlines()))
         self.floor = []
-        self.players = [Player(self) for _ in range(n_players)]
+        self.players = [Human(self) for _ in range(n_players)]
         self.current = 0
 
     def start_game(self):
@@ -268,6 +269,5 @@ class Game:
 g = Game()
 g.start_game()
 
-print(g.players[0])
-print(g.players[1])
-print(g.players[2])
+print(g.players)
+g.players[0].take_turn()
