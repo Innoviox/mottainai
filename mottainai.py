@@ -25,6 +25,19 @@ class Types(Enum):
     CLAY = 4
     METAL = 5
 
+class Events(Enum):
+    MORNING = 0
+    NOON = 1
+    NIGHT = 2
+
+    CLERK = 3
+    MONK = 4
+    TAILOR = 5
+    POTTER = 6
+    SMITH = 7
+
+    PRAYER = 8
+    CRAFT = 9
 types = Types.__members__
 points = {t: round(0.5 * types[t].value + 0.7) for t in types}
 colors = {Types.PAPER: 'magenta',
@@ -32,9 +45,9 @@ colors = {Types.PAPER: 'magenta',
           Types.CLOTH: 'cyan',
           Types.METAL: 'blue',
           Types.CLAY: 'yellow'}
-ons = {Types.PAPER: 'on_white',
+ons = {Types.PAPER: 'on_blue',
        Types.STONE: 'on_blue',
-       Types.CLOTH: 'on_magenta',
+       Types.CLOTH: 'on_blue',
        Types.METAL: 'on_white',
        Types.CLAY: 'on_blue'}
 workers = {Types.PAPER: 'clerk',
@@ -42,6 +55,14 @@ workers = {Types.PAPER: 'clerk',
           Types.CLOTH: 'tailor',
           Types.METAL: 'smith',
           Types.CLAY: 'potter'}
+tasks = {Types.PAPER: Events.CLERK,
+         Types.STONE: Events.MONK,
+         Types.CLOTH: Events.TAILOR,
+         Types.CLAY: Events.POTTER,
+         Types.METAL: Events.SMITH}
+
+def str_list(l, f=lambda i:i.name):
+    return ", ".join(tc.colored(f(i), colors[i.typ]) for i in list)
 
 class Card:
     def __init__(self, typ, name, ability):
@@ -85,7 +106,7 @@ class Player:
 
     def take_turn(self):
         raise NotImplementedError()
-
+    
     def __repr__(self):
         s = ""
 
@@ -106,11 +127,16 @@ class Player:
         box_width = len(task_name)
         if self.craft_bench:
             box_width = max(box_width, max(map(lambda i: len(i.typ.name), self.craft_bench)))
+            
         box_height = 1
         if self.helpers:
             box_height = max(box_height, max(map(lambda i: len(workers[i.typ]), self.helpers)))
         if self.sales:
             box_height = max(box_height, max(map(len, self.sales)))
+        if self.gift_shop:
+            box_height = max(box_height, max(map(lambda i: len(str(i).split("\n")), self.gift_shop)))
+        if self.gallery:
+            box_height = max(box_height, max(map(lambda i: len(str(i).split("\n")), self.gallery)))
 
         s += lpad + '-' * box_width + "\n"
         for i in range(box_height):
@@ -126,7 +152,7 @@ class Player:
                 if i >= len(workers[h.typ]):
                     s += " "
                 else:
-                    s += tc.colored(workers[h.typ][i], colors[h.typ], ons[h.typ])
+                    s += tc.colored(workers[h.typ][i], colors[h.typ]) #, ons[h.typ])
                 s += " "
 
             s += " |" + " " * (box_width - 2) + "  | "
@@ -135,7 +161,7 @@ class Player:
                 if i >= len(a):
                     s += " "
                 else:
-                    s += tc.colored(a.name[i], colors[a.typ], ons[a.typ])
+                    s += tc.colored(a.name[i], colors[a.typ]) #, ons[a.typ])
                 s += " "
 
             for w in self.gift_shop:
@@ -161,16 +187,59 @@ class Player:
 
 class Human(Player):
     def take_turn(self):
+        #### MORNING ####
         if len(self.hand) > 5:
             # discard down
             ...
+            
         self.game.floor.append(self.task) # TODO: check chopsticks
         
-        for work in self.gallery:
-            work.morning("gallery")
-        for work in self.gift_shop:
-            work.morning("gift_shop")        
+        self.do_works(Events.MORNING)
         
+        print("Your hand is:", str_list(self.hand))
+        self.task = self.hand[int(input("Enter new task (0-indexed): "))] # TODO: input by name
+
+        #### NOON ####
+        for p in self.game.players:
+            self.do_task(workers[p.task.typ]) # TODO: Hidden tasks
+
+    def do_works(self, event):
+        print("Processing for:", event.name)
+        for l in [self.gift_shop, self.gallery]:
+            for work in l:
+                n = event.name.lower()
+                if event.value > 2:
+                    n += " action"
+                if n in work.ability.lower():
+                    print("Found", work.name)
+
+    def do_task(self, task):
+        print("Doing task:", task)
+        self.do_works(task)
+        for _ in range(1 + self.count_helpers(task)):
+            if task == Events.CLERK:
+                print("Your craft bench is:", str_list(self.craft_bench, f=lambda i:i.typ.name))
+                c = int(input("Enter craft to sell (0-indexed): "))
+                self.sales.append(self.craft_bench.pop(c))
+            elif task == Events.MONK:
+                print("The floor is:", str_list(self.game.floor))
+                c = int(input("Enter helper to get (0-indexed): "))
+                self.helpers.append(self.game.floor.pop(c))
+            elif task == Events.TAILOR:
+                print("Your hand is:", str_list(self.hand))
+                c = list(map(int, input("Enter indexes of cards you want to cycle: ").split()))
+                # TODO: Tailor
+            elif task == Events.POTTER:
+                print("The floor is:", str_list(self.game.floor, f=lambda i:i.typ.name))
+                c = int(input("Enter material to get (0-indexed): "))
+                self.craft_bench.append(self.game.floor.pop(c))
+            elif task == Events.SMITH:
+                ... # TODO: SMITH
+            # TODO: Switch for prayer / craft
+
+    def count_helpers(self, task):
+        return sum(1 for h in self.helpers if workers[h.typ].upper() == task.name)
+
 
 class Game:
     def __init__(self, n_players=3):
@@ -183,7 +252,7 @@ class Game:
         random.shuffle(self.deck)
         
         for p in self.players:
-            p.hand = self.deck[1:5]
+            p.hand = self.deck[:5]
             self.deck = self.deck[5:]
             
         for p in self.players:
@@ -199,12 +268,6 @@ class Game:
 g = Game()
 g.start_game()
 
-g.players[0].helpers.append(g.deck.pop())
-g.players[0].sales.append(g.deck.pop())
-g.players[0].craft_bench.append(g.deck.pop())
-g.players[0].gift_shop.append(g.deck.pop())
-g.players[0].gallery.append(g.deck.pop())
-g.players[0].gallery.append(g.deck.pop())
-
-
 print(g.players[0])
+print(g.players[1])
+print(g.players[2])
