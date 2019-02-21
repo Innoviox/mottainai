@@ -48,16 +48,29 @@ def parse(card):
     m = pt[0][M]
     start = find_arc(m, 'prep')
     trigger = find_arc(start[M], 'pobj')
-    if trigger: # Triggered
+    if trigger:
         event = find_arc(trigger[M], ['compound', 'amod', 'nmod'])
         cond = find_arc(trigger[M], 'mark')
         if cond: # Conditional
             check = find_arc(trigger[M], 'advcl')
         action = find_arc(m, 'prep', n=1)
+    else:
+        ...
     return action, start, trigger, event
     # event = find_arc_deep(m, 'prep', 'pobj', ['compound', 'amod', 'nmod'])
     # return event
 
+def _parse_piece(piece):
+    n = nlp(piece).print_tree()[0][M]
+    if find_arc(n, 'pobj'): # event?
+        ...
+    
 
+def parse(card):
+    target = text[card].split(".")
+    for sentence in target:
+        pieces = sentence.split(",")
+        parsed = list(map(_parse_piece, pieces))
 
-
+def get_rendered_svg(phrase):
+    open("test.svg", "w").write(displacy.render(nlp(w), options={'compact':True, 'page':True}))
