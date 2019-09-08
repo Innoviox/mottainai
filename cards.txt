@@ -51,3 +51,4 @@ Sketch::PAPER::Instead of choosing a new task from your hand, you may move one o
 Quilt::CLOTH::Your PAPER, STONE, and CLOTH sales are covered. Your PAPER, STONE, and CLOTH cards in hand count as backorders if you are ahead or tied for sales of their type.
 Daidoro::STONE::In the morning, you may restock the floor from the top of the deck until their are three cards on the floor.
 Umbrella::CLOTH::In the morning, add a card from the top of the deck to the floor. If you do, you may convert a matching helper into a sale.
+Scroll::PAPER::+3 points.

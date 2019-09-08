@@ -73,4 +73,4 @@ def parse(card):
         parsed = list(map(_parse_piece, pieces))
 
 def get_rendered_svg(phrase):
-    open("test.svg", "w").write(displacy.render(nlp(w), options={'compact':True, 'page':True}))
+    open("test.svg", "w").write(displacy.render(nlp(phrase), options={'compact':True, 'page':True}))
