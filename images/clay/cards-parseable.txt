@@ -1,0 +1,2 @@
+M: Pin: m⇒T
+M: Cup: P⇒U>-

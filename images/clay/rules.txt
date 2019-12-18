@@ -1,0 +1,44 @@
+Types
+M: Metal
+A: pAper
+L: cLoth
+N: stoNe
+Y: claY
+
+Actions
+E: prayEr
+R: cRaft
+S: Smith
+C: Clerk
+T: Tailor
+K: monK
+P: Potter
+O: cOmplete
+U: return
+t: take: t(a,b) take a from any x if x satisfies b
+-: end the game
+
+Things
+W: Work
+s: sale
+,: current player
+.: current card
+
+Times
+m: morning
+o: noon
+n: night
+
+Zones
+w: waiting area
+c: craft bench
+h: hand
+d: deck
+
+Symbols
+→: transfer
+>: after, if you do
+⇒: may take a, may do
+⇄: for a
+↻: instead of a
+↛: after a working action
