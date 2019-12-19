@@ -39,7 +39,7 @@ class Player:
 
         self.game = game
 
-    def trigger_works(self, event: Events):
+    def trigger_works(self, works):
         ...
 
     def discard_down(self):
@@ -74,10 +74,12 @@ class Game:
             self.floor.append(self.deck.take(1))
 
     def do_turn(self):
+        self.current_player.trigger_works([""])
         self.current_player.discard_down()
+        self.floor.append(self.current_player.task)
+        self.current_player.task = None
         self.current_player.pick_task()
-        self.current_player.trigger_works(Events.MORNING)
-        
+
 
     @property
     def current_player(self) -> Player:
