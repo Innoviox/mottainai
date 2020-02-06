@@ -1,0 +1,54 @@
+Gong::METAL::After your PRAYER action, you may draw three cards to your waiting area. If you do, place this there too.
+Pinwheel::PAPER::At night, you may return a card from your hand. If you do, you may draw a card to your waiting area.
+Kite::CLOTH::In the morning, you may transfer a card from your hand to any craft bench. If you do, treat Kite as an exact copy of one of that player's works until the end of your turn.
+Doll::PAPER::Instead of choosing a new task from your hand, you may move an opponent's task to be your new task. It gives you one extra action.
+Dice::CLAY::Before your TAILOR action, you may reveal the top card of the deck. If its value is equal to the number of cards in your hand, complete it for free.
+Shuriken::METAL::After you complete this, take a work from an opponent that has more works than you.
+Vase::CLAY::After you complete this, transfer two materials from the floor to your sales.
+Bench::STONE::+2 points for each of your STONE works.
+Plane::PAPER::After a POTTER action, if you collected a material, you may move one of your works from one wing to the other.
+Poem::PAPER::After you complete a PAPER work, you may return it. If you do, complete the top card of the deck for free.
+Chopsticks::METAL::Instead of discarding your previous task to the floor, you may move it to your sales.
+Pin::METAL::In the morning, you may take a TAILOR action.
+Tower::STONE::Opponents skip your CLERK, MONK, or POTTER tasks unless they reveal a matching card from their hand.
+Flute::METAL::For a MONK or POTTER action, you may hire or collect an opponent's PAPER work or task instead of a card from the floor.
+Turtle::METAL::If you have a work of each type of material at any time, you win.
+Clock::CLOTH::After you complete a work, you may return it. If you do, complete a METAL work from your hand for free.
+Puppet::CLOTH::Before your TAILOR action, you may return this to trade your hand with an opponent. Place their hand in your waiting area.
+Sword::METAL::For a MONK action, you may hire an opponent's helper if they have more helpers than you. For a POTTER action, you may collect an opponent's material if they have more materials than you.
+Stool::STONE::After you complete a STONE, CLAY, or METAL work, you may draw a card to your waiting area.
+Ring::METAL::After a CLERK action, if you sold a material, you may take a sale from an opponent that has more sales than you.
+Brick::CLAY::For SMITH actions, treat all players' tasks as if they were in your hand to use as support.
+Curtain::PAPER::Opponents skip your TAILOR or SMITH tasks unless they reveal a matching card from their hand.
+Bell::METAL::For a CLERK action, you may sell the top card of the deck instead of a card from your craft bench.
+Figurine::CLAY::Before using each opponent's task, you may reveal a matching card from your hand to gain one extra action for that task.
+Cup::CLAY::After your PRAYER action, you may return this. If you do, end the game.
+Statue::STONE::After you complete this, transfer two materials from the floor to your craft bench.
+Coin::METAL::Count all of the cards in your hand an extra time for backorders at the end of the game.
+Robe::CLOTH::For a CLERK action, you may sell all materials of one type from your craft bench.
+Crane::PAPER::For SMITH or CRAFT actions, you may return PAPER cards from your craft bench to count as additional support.
+Flag::CLOTH::Before using your task, you may reveal a matching card in hand to gain one extra action of that task.
+Haniwa::CLAY::For your most frequent helper type (choose one if tied), +3 points for each helper.
+Handkerchief::CLOTH::Instead of checking the hand limit in the morning, you may discard one card from your hand to the floor.
+Frog::STONE::After you complete this, if no opponent has fewer works than you, take an extra turn after this one.
+Straw::PAPER::For SMITH actions, you require one less support to complete a CLOTH or CLAY work.
+Tapestry::CLOTH::+1 point for each work in this wing.
+Lampshade::PAPER::Your CLAY and METAL cards in hand count as backorders if you are ahead or tied for sales of their type.
+Pillar::STONE::All sales of your most sold resource type are considered covered; choose one type if tied.
+Deck of Cards::PAPER::After a SMITH action, if you completed a PAPER work, you may draw a card to your waiting area.
+Fan::PAPER::Before your TAILOR action, you may reveal the top three cards of the deck. If you do, return two of them and put the third back on top.
+Tablet::STONE::After you complete this, either return all cards on the floor, or restock the floor from the deck until it has both a STONE and a METAL.
+Socks::CLOTH::For a POTTER action, you may collect the top card of the deck instead of a card from the floor.
+Fountain::STONE::Before a CLERK task, you may reveal MONK cards from hand. Each one counts as a CLERK helper during the task.
+Amulet::STONE::After you complete a work, you may sell a material from your craft bench.
+Teapot::CLAY::For the most frequent material type in your craft bench (choose one if tied), +3 points for each material.
+Mask::CLOTH::Opponents cannot convert actions from your tasks into PRAYER or CRAFT actions.
+Bangle::CLAY::Opponents do not get actions from their helpers on your tasks. All your MONK helpers are considered covered.
+Go Set::STONE::All your STONE works count as being in both works at the same time.
+Jar::CLAY::After you complete this, choose a material type. All opponents transfer all cards of that type from their hands to your waiting area.
+Bowl::CLAY::In the morning, you may collect the top card of the deck into your craft bench.
+Sketch::PAPER::Instead of choosing a new task from your hand, you may move one of your helpers to become your new task.
+Quilt::CLOTH::Your PAPER, STONE, and CLOTH sales are covered. Your PAPER, STONE, and CLOTH cards in hand count as backorders if you are ahead or tied for sales of their type.
+Daidoro::STONE::In the morning, you may restock the floor from the top of the deck until their are three cards on the floor.
+Umbrella::CLOTH::In the morning, add a card from the top of the deck to the floor. If you do, you may convert a matching helper into a sale.
+Scroll::PAPER::+3 points.
