@@ -1,5 +1,9 @@
 package main
 
+import (
+	"fmt"
+)
+
 type Material int
 
 const (
@@ -9,3 +13,13 @@ const (
 	METAL Material = 3
 	CLAY  Material = 3
 )
+
+type Card struct {
+	mat  Material
+	name string
+}
+
+func main() {
+	c := Card{PAPER, "Doll"}
+	fmt.Println(c)
+}
