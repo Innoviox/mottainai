@@ -8,13 +8,14 @@ var materials = NewMaterials()
 var deck = NewDeck()
 
 type Museum struct {
-	sales      []Card
-	helpers    []Card
-	gift_shop  []Card
-	gallery    []Card
-	work_bench []Card
-
-	task Card
+	sales        []Card
+	helpers      []Card
+	gift_shop    []Card
+	gallery      []Card
+	work_bench   []Card
+	task         Card
+	hand         []Card
+	waiting_area []Card
 }
 
 func main() {
