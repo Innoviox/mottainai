@@ -4,13 +4,8 @@ import (
 	"fmt"
 )
 
-var mat = NewMaterials()
-
-type Card struct {
-	mat  Material
-	name string
-	text string
-}
+var materials = NewMaterials()
+var deck = NewDeck()
 
 type Museum struct {
 	sales      []Card
@@ -23,6 +18,7 @@ type Museum struct {
 }
 
 func main() {
-	c := Card{mat.PAPER, "Doll"}
-	fmt.Println(c)
+	for idx, el := range deck.cards {
+		fmt.Println(idx, el.name)
+	}
 }

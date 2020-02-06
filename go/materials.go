@@ -1,5 +1,9 @@
 package main
 
+import (
+	"strings"
+)
+
 type Material struct {
 	String string
 	value  int
@@ -20,4 +24,19 @@ func NewMaterials() Materials {
 	m := Material{"Metal", 3}
 	l := Material{"Clay", 3}
 	return Materials{p, c, s, m, l}
+}
+
+func (m Materials) NewMaterial(s string) Material {
+	switch strings.ToLower(s) {
+	case "paper":
+		return m.PAPER
+	case "cloth":
+		return m.CLOTH
+	case "stone":
+		return m.STONE
+	case "metal":
+		return m.METAL
+	default: // case "clay"
+		return m.CLAY
+	}
 }
