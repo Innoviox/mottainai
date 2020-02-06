@@ -4,15 +4,7 @@ import (
 	"fmt"
 )
 
-type Material int
-
-const (
-	PAPER Material = 1
-	CLOTH Material = 2
-	STONE Material = 2
-	METAL Material = 3
-	CLAY  Material = 3
-)
+var mat = NewMaterials()
 
 type Card struct {
 	mat  Material
@@ -20,6 +12,6 @@ type Card struct {
 }
 
 func main() {
-	c := Card{PAPER, "Doll"}
+	c := Card{mat.PAPER, "Doll"}
 	fmt.Println(c)
 }
