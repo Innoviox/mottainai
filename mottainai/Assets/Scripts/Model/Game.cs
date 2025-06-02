@@ -256,6 +256,20 @@ public class Game
         // todo handle LTask, RTask, CTask
         // todo handle works
 
+        if (action.Type == LTask || action.Type == RTask || action.Type == CTask)
+        {
+            int playerN = action.Type == LTask ? (currentPlayerIndex + 2) % players.Length :
+                            action.Type == RTask ? (currentPlayerIndex + 1) % players.Length :
+                            currentPlayerIndex;
+            Material m = players[playerN].Temple.Task.Material;
+            int total = players[currentPlayerIndex].TaskCount(m);
+            ActionType a = Utils.GetAction(m);
+            for (int i = 0; i < total; i++)
+            {
+                newActions.Add(new Action(a, $"Perform {a} task #{i+1}", action.Type));
+            }
+        }
+
         return newActions;
     }
 

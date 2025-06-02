@@ -22,7 +22,12 @@ public enum ZoneType
     Floor,
     Deck,
     LTask,
-    RTask
+    RTask,
+    Clerk,
+    Tailor,
+    Monk,
+    Potter,
+    Smith,   
 }
 
 public class Zone
@@ -123,6 +128,25 @@ public class Utils
                 return "POTTER";
             case Material.Metal:
                 return "SMITH";
+            default:
+                throw new System.ArgumentException("Invalid material type");
+        }
+    }
+
+    public static ActionType GetAction(Material material)
+    {
+        switch (material)
+        {
+            case Material.Paper:
+                return ActionType.Clerk;
+            case Material.Cloth:
+                return ActionType.Tailor;
+            case Material.Stone:
+                return ActionType.Monk;
+            case Material.Clay:
+                return ActionType.Potter;
+            case Material.Metal:
+                return ActionType.Smith;
             default:
                 throw new System.ArgumentException("Invalid material type");
         }
