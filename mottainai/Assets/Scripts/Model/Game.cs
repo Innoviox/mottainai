@@ -19,7 +19,17 @@ public class Game
     }
 
     private List<Card> deck;
+    public List<Card> Deck
+    {
+        get { return deck; }
+    }
+    
     private List<Card> floor;
+    public List<Card> Floor
+    {
+        get { return floor; }
+    }
+
     private Sprite[] backs;
     private Sprite[] cardSprites;
 
@@ -123,5 +133,4 @@ public class Game
         deck.RemoveAt(0);
         return dealtCard;
     }
-
 }

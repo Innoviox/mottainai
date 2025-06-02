@@ -32,9 +32,38 @@ public class GameObject : MonoBehaviour
         {
             playerObjects[i].Player = game.Players[i];
             playerObjects[i].Refresh();
-            playerObjects[i].Show(i == game.CurrentPlayerIndex);
+        }
+
+        DrawFloor();
+        BeginTurn();
+    }
+
+    void DrawFloor()
+    {
+        transform.Find("Canvas/DeckCount").GetComponent<TMPro.TextMeshProUGUI>().text = game.Deck.Count.ToString();
+
+        Transform floorTransform = transform.Find("Floor");
+        foreach (Transform child in floorTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < game.Floor.Count; i++)
+        {
+            Transform cardTransform = Instantiate(playerObjects[0].cardPrefab, new Vector3(i * 10, 0, 0), Quaternion.identity, floorTransform);
+            CardObject cardObject = cardTransform.GetComponent<CardObject>();
+            cardObject.Card = game.Floor[i];
+            cardObject.Refresh();
         }
     }
+
+    void BeginTurn()
+    {
+        for (int i = 0; i < playerObjects.Length; i++)
+        {
+            playerObjects[i].Reposition(i, game.CurrentPlayerIndex);
+        }
+     }
 
     // Update is called once per frame
     void Update()
