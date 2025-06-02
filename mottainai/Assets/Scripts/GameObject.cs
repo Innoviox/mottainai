@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameObject : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameObject : MonoBehaviour
     private Game game;
 
     private PlayerObject[] playerObjects;
+    private InputAction clickAction;
+    private InputAction pointAction;
+
     private void Awake()
     {
         playerObjects = new PlayerObject[3];
@@ -26,6 +30,9 @@ public class GameObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        clickAction = InputSystem.actions.FindAction("Click");
+        pointAction = InputSystem.actions.FindAction("Point");
+
         game = new Game(cardsPath, backs, cardSprites);
         game.Deal();
 
@@ -76,11 +83,34 @@ public class GameObject : MonoBehaviour
         UpdateLog();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
+        if (clickAction.WasPerformedThisFrame())
+        {
+            PerformRaycast();
+        }
     }
+
+    void PerformRaycast()
+    {
+        Vector2 pointerPosition = pointAction.ReadValue<Vector2>();
+
+        var rayHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(pointerPosition));
+        if (!rayHit.collider) return;
+
+        Transform hitTransform = rayHit.collider.transform;
+        Debug.Log("Hit: " + hitTransform.name);
+        if (game.currentAction != null)
+        {
+            if (game.currentAction.Type == ActionType.ChooseTask) {
+                if (hitTransform.name.StartsWith("CardHighlight"))
+                {
+                    
+                }
+            }
+        }
+    }
+
 
     void UpdateLog()
     {

@@ -42,7 +42,7 @@ public class Game
     {
         get { return actions; }
     }
-    private int actionIndex = 0;
+    private int actionIndex = -1;
 
     public Game(string cardsPath, Sprite[] backs, Sprite[] cardSprites)
     {
@@ -62,7 +62,7 @@ public class Game
         this.floor = new List<Card>();
         this.zones = new List<Zone>();
         this.actions = new List<Action>();
-        this.actionIndex = 0;
+        this.actionIndex = -1;
     }
 
     private void LoadCards(string cardsPath)
@@ -157,7 +157,7 @@ public class Game
 
         if (actions.Count == 0)
         {
-            actionIndex = 0;
+            actionIndex = -1;
             SetActions();
         }
 
@@ -167,8 +167,8 @@ public class Game
             return;
         }
 
-        Action action = actions[actionIndex];
         actionIndex++;
+        Action action = actions[actionIndex];
 
         SetZones(action);
 
@@ -266,13 +266,25 @@ public class Game
             string log = "";
             for (int i = 0; i < actions.Count; i++)
             {
-                if (i == actionIndex - 1)
+                if (i == actionIndex)
                 {
                     log += $"> ";
                 }
                 log += $"{actions[i].Description}\n";
             }
             return log;
+        }
+    }
+
+    public Action currentAction
+    {
+        get
+        {
+            if (actionIndex < 0 || actionIndex >= actions.Count)
+            {
+                return null;
+            }
+            return actions[actionIndex];
         }
     }
 }

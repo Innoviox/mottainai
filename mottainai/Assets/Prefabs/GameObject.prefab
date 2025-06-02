@@ -425,6 +425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 542500640593940820}
   - component: {fileID: 8984032711702773125}
+  - component: {fileID: 6855894193795680764}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -527,6 +528,40 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 819da4294b9b24115ac43ee87a36eed2, type: 3}
   - {fileID: 21300000, guid: 9f4b6ab2069314417a9e94958510684b, type: 3}
   - {fileID: 21300000, guid: 16c5c5ad89ea9485cbedcad9d8628d5b, type: 3}
+--- !u!114 &6855894193795680764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5088473812814906992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: d5446a88fee5d442da7e65b362b9c174, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 13211e7c-8329-42dc-8297-56fd2831043f
+    m_ActionName: Gameplay/Click[/Mouse/leftButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &5232197259704079618
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1043,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0.0006406592, y: 0.000011444}
+  m_AnchoredPosition: {x: 0.0006406592, y: 0.000011444092}
   m_SizeDelta: {x: 88.153, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2527155849841213503
