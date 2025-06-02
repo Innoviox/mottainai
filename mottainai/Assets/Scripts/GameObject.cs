@@ -74,7 +74,6 @@ public class GameObject : MonoBehaviour
         game.Tick();
         Refresh();
         UpdateLog();
-        // HighlightZones(game.Zones);
     }
 
     // Update is called once per frame
@@ -95,6 +94,24 @@ public class GameObject : MonoBehaviour
         for (int i = 0; i < playerObjects.Length; i++)
         {
             playerObjects[i].Refresh(i == game.CurrentPlayerIndex);
+        }
+        HighlightZones(game.Zones);
+    }
+
+    void HighlightZones(List<Zone> zones)
+    {
+        foreach (Zone zone in zones)
+        {
+            Debug.Log("Highlighting " + zone.ToString());
+            switch (zone.Type)
+            {
+                case ZoneType.Hand:
+                    playerObjects[game.CurrentPlayerIndex].HighlightHand(zone.Value);
+                    break;
+                default:
+                    Debug.LogWarning("Unhandled zone type: " + zone.Type);
+                    break;
+            }
         }
     }
 }

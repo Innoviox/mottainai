@@ -34,6 +34,11 @@ public class Zone
         Type = type;
         Value = value;
     }
+
+    public override string ToString()
+    {
+        return $"{Type} (Value: {Value})";
+    }
 }
 
 public enum ActionType

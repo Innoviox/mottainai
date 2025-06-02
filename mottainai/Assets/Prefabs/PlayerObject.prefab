@@ -247,3 +247,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 6730464481061545610, guid: 52d314eb1353943cdaff9474a8852a89, type: 3}
+  cardHighlightPrefab: {fileID: 3143531983177864119, guid: 75217a721d73b455181e46ec4a8ddf09, type: 3}

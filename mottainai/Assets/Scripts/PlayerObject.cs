@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerObject : MonoBehaviour
 {
     public Transform cardPrefab;
+    public Transform cardHighlightPrefab;
 
     private Player player;
     public Player Player
@@ -13,9 +14,12 @@ public class PlayerObject : MonoBehaviour
         set { player = value; }
     }
 
+    private List<Transform> highlights = new List<Transform>();
+
     // Start is called before the first frame update
     void Start()
     {
+        highlights = new List<Transform>();
     }
 
     // Update is called once per frame
@@ -42,6 +46,8 @@ public class PlayerObject : MonoBehaviour
         {
             dummyTask.gameObject.SetActive(true);
         }
+
+        ClearHighlights();
     }
 
     public void DrawHand(bool active)
@@ -82,5 +88,24 @@ public class PlayerObject : MonoBehaviour
             transform.position = new Vector3(145, 10, 0);
             transform.rotation = Quaternion.Euler(0, 0, 90);
         }
+    }
+
+    public void HighlightHand(int index)
+    {
+        Transform hand = transform.Find("Hand");
+        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, hand);
+        highlightTransform.localPosition = new Vector3(index * 40, 0, 0);
+        highlights.Add(highlightTransform);
+    }
+
+    public void ClearHighlights()
+    {
+        if (highlights == null) return;
+        foreach (Transform highlight in highlights)
+        {
+            if (highlight == null) continue;
+            Destroy(highlight.gameObject);
+        }
+        highlights.Clear();
     }
 }
