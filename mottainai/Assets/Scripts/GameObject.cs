@@ -15,7 +15,7 @@ public class GameObject : MonoBehaviour
         playerObjects = new PlayerObject[3];
         for (int i = 0; i < playerObjects.Length; i++)
         {
-            Transform playerTransform = Instantiate(playerPrefab, new Vector3(i * 2.0f, 0, 0), Quaternion.identity);
+            Transform playerTransform = Instantiate(playerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             playerObjects[i] = playerTransform.GetComponent<PlayerObject>();
         }
     }
@@ -29,6 +29,8 @@ public class GameObject : MonoBehaviour
         for (int i = 0; i < playerObjects.Length; i++)
         {
             playerObjects[i].Player = game.Players[i];
+            playerObjects[i].Refresh();
+            playerObjects[i].Show(i == game.CurrentPlayerIndex);
         }
     }
 

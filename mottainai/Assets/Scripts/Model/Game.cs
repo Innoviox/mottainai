@@ -12,6 +12,12 @@ public class Game
     }
 
     private int currentPlayerIndex;
+    public int CurrentPlayerIndex
+    {
+        get { return currentPlayerIndex; }
+        set { currentPlayerIndex = value; }
+    }
+
     private List<Card> deck;
     private List<Card> floor;
 
@@ -110,8 +116,4 @@ public class Game
         return dealtCard;
     }
 
-    public Player CurrentPlayer
-    {
-        get { return players[currentPlayerIndex]; }
-    }
 }

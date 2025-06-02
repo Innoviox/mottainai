@@ -4,14 +4,26 @@ using UnityEngine;
 
 public class CardObject : MonoBehaviour
 {
+    private Card card;
+    public Card Card
+    {
+        get { return card; }
+        set { card = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
+    {
+
+    }
+
+    public void Refresh()
     {
         
     }
