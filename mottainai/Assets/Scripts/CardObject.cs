@@ -32,8 +32,7 @@ public class CardObject : MonoBehaviour
         transform.Find("Canvas/Type3").GetComponent<TMPro.TextMeshProUGUI>().text = Utils.GetJob(card.Material);
         transform.Find("Canvas/Value").GetComponent<TMPro.TextMeshProUGUI>().text = card.Value.ToString();
 
-        // var sprite = UnityEngine.Resources.Load<Sprite>(card.ImagePath);
-        // Debug.Log($"Loaded sprite : {sprite != null}");
-        // transform.Find("Image").GetComponent<SpriteRenderer>().sprite = sprite;
+        transform.Find("Image").GetComponent<SpriteRenderer>().sprite = card.ImageSprite;
+        transform.GetComponent<SpriteRenderer>().sprite = card.BackSprite;
     }
 }

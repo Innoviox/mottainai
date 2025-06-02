@@ -11,7 +11,7 @@ public class Card
     private Sprite imageSprite;
 
 
-    public Card(Material material, string name, string description)
+    public Card(Material material, string name, string description, Sprite backSprite, Sprite imageSprite)
     {
         this.material = material;
 
@@ -40,6 +40,9 @@ public class Card
         {
             throw new System.IO.FileNotFoundException($"Image file not found at path: {imagePath}");
         }
+
+        this.backSprite = backSprite;
+        this.imageSprite = imageSprite;
     }
 
     public Material Material
@@ -65,6 +68,16 @@ public class Card
     public string ImagePath
     {
         get { return imagePath; }
+    }
+
+    public Sprite BackSprite
+    {
+        get { return backSprite; }
+    }
+    
+    public Sprite ImageSprite
+    {
+        get { return imageSprite; }
     }
 
 

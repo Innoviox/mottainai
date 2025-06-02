@@ -49,8 +49,10 @@ public class Game
 
         string[] lines = reader.ReadToEnd().Split('\n');
 
-        foreach (string line in lines)
+        // foreach (string line in lines)
+        for (int i = 0; i < lines.Length; i++)
         {
+            string line = lines[i].Trim();
             if (string.IsNullOrWhiteSpace(line)) continue;
 
             string[] parts = line.Split("::");
@@ -60,7 +62,8 @@ public class Game
             string materialStr = parts[1].Trim();
             string description = parts[2].Trim();
 
-            Card card = new Card(Utils.StringToMaterial(materialStr), name, description);
+            Material m = Utils.StringToMaterial(materialStr);
+            Card card = new Card(m, name, description, backs[(int)m], cardSprites[i]);
             deck.Add(card);
         }
     }
