@@ -32,6 +32,16 @@ public class PlayerObject : MonoBehaviour
     public void Refresh(bool active)
     {
         DrawHand(active);
+
+        Transform dummyTask = transform.Find("DummyTask");
+        if (player.HasPlayed)
+        {
+            dummyTask.gameObject.SetActive(false);
+        }
+        else
+        {
+            dummyTask.gameObject.SetActive(true);
+        }
     }
 
     public void DrawHand(bool active)
