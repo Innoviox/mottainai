@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using System.IO;
 
 public class Game
 {
     private Player[] players;
+    public Player[] Players
+    {
+        get { return players; }
+    }
+
     private int currentPlayerIndex;
     private List<Card> deck;
     private List<Card> floor;
@@ -26,27 +33,23 @@ public class Game
     private void LoadCards(string cardsPath)
     {
         deck = new List<Card>();
-        
-        TextAsset cardsFile = Resources.Load<TextAsset>(cardsPath);
-        if (cardsFile == null)
-        {
-            throw new System.Exception("Cards file not found at path: " + cardsPath);
-        }
 
-        string[] lines = cardsFile.text.Split('\n');
+        StreamReader reader = new StreamReader(cardsPath); 
+
+        string[] lines = reader.ReadToEnd().Split('\n');
 
         foreach (string line in lines)
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            string[] parts = line.Split('::');
+            string[] parts = line.Split("::");
             if (parts.Length < 3) continue;
 
             string name = parts[0].Trim();
             string materialStr = parts[1].Trim();
             string description = parts[2].Trim();
 
-            Card card = new Card(name, StringToMaterial(materialStr), description);
+            Card card = new Card(Utils.StringToMaterial(materialStr), name, description);
             deck.Add(card);
         }
     }
@@ -64,7 +67,7 @@ public class Game
             }
 
             // set dummy task
-            players[i].Temple.SetTask(DealCard());
+            players[i].Temple.Task = DealCard();
         }
 
         // select first player based on alphabetically first card
@@ -86,9 +89,9 @@ public class Game
 
     private void ShuffleDeck()
     {
-        for (int i = deck.Length - 1; i > 0; i--)
+        for (int i = deck.Count - 1; i > 0; i--)
         {
-            int j = Random.Range(0, i + 1);
+            int j = UnityEngine.Random.Range(0, i + 1);
             Card temp = deck[i];
             deck[i] = deck[j];
             deck[j] = temp;
@@ -97,13 +100,13 @@ public class Game
 
     private Card DealCard()
     {
-        if (deck.Length == 0)
+        if (deck.Count == 0)
         {
             return null;
         }
 
         Card dealtCard = deck[0];
-        deck = deck[1..];
+        deck.RemoveAt(0);
         return dealtCard;
     }
 

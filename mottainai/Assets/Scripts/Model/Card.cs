@@ -79,9 +79,4 @@ public class Card
         }
         return false;
     }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(material, value, name, description, imagePath);
-    }
 }

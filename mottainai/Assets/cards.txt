@@ -13,7 +13,7 @@ Pin::METAL::In the morning, you may take a TAILOR action.
 Tower::STONE::Opponents skip your CLERK, MONK, or POTTER tasks unless they reveal a matching card from their hand.
 Flute::METAL::For a MONK or POTTER action, you may hire or collect an opponent's PAPER work or task instead of a card from the floor.
 Turtle::METAL::If you have a work of each type of material at any time, you win.
-Clock::CLOTH::After you complete a work, you may return it. If you do, complete a METAL work from your hand for free.
+Cloak::CLOTH::After you complete a work, you may return it. If you do, complete a METAL work from your hand for free.
 Puppet::CLOTH::Before your TAILOR action, you may return this to trade your hand with an opponent. Place their hand in your waiting area.
 Sword::METAL::For a MONK action, you may hire an opponent's helper if they have more helpers than you. For a POTTER action, you may collect an opponent's material if they have more materials than you.
 Stool::STONE::After you complete a STONE, CLAY, or METAL work, you may draw a card to your waiting area.

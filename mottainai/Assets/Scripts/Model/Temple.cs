@@ -10,4 +10,9 @@ public class Temple
     private List<Card> gallery;
     private List<Card> giftShop;
 
+    public Card? Task
+    {
+        get { return task; }
+        set { task = value; }
+    }
 }
