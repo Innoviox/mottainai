@@ -8,17 +8,47 @@ public class Game
     private List<Card> deck;
     private List<Card> floor;
 
-    public Game(List<Card> deck)
+    public Game(string cardsPath)
     {
+        LoadCards(cardsPath);
+
         this.players = new Player[3];
         for (int i = 0; i < players.Length; i++)
         {
             players[i] = new Player();
         }
 
-        this.deck = deck;
+        
         this.currentPlayerIndex = 0;
         this.floor = new List<Card>();
+    }
+
+    private void LoadCards(string cardsPath)
+    {
+        deck = new List<Card>();
+        
+        TextAsset cardsFile = Resources.Load<TextAsset>(cardsPath);
+        if (cardsFile == null)
+        {
+            throw new System.Exception("Cards file not found at path: " + cardsPath);
+        }
+
+        string[] lines = cardsFile.text.Split('\n');
+
+        foreach (string line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            string[] parts = line.Split('::');
+            if (parts.Length < 3) continue;
+
+            string name = parts[0].Trim();
+            string materialStr = parts[1].Trim();
+            string description = parts[2].Trim();
+
+            Card card = new Card(name, StringToMaterial(materialStr), description);
+            deck.Add(card);
+        }
     }
 
     public void Deal()

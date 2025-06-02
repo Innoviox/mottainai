@@ -6,13 +6,35 @@ public class Card
     private string description;
     private string imagePath;
 
-    public Card(Material material, int value, string name, string description, string imagePath)
+    public Card(Material material, string name, string description)
     {
         this.material = material;
-        this.value = value;
+
+        switch (material)
+        {
+            case Material.Paper:
+                this.value = 1;
+                break;
+            case Material.Cloth:
+            case Material.Stone:
+                this.value = 2;
+                break;
+            case Material.Clay:
+            case Material.Metal:
+                this.value = 3;
+                break;
+            default:
+                throw new System.ArgumentException("Invalid material type");
+        }
+
         this.name = name;
         this.description = description;
-        this.imagePath = imagePath;
+
+        imagePath = $"Assets/images/{material.ToString().ToLower()}/{name.ToLower()}.png";
+        if (!System.IO.File.Exists(imagePath))
+        {
+            throw new System.IO.FileNotFoundException($"Image file not found at path: {imagePath}");
+        }
     }
 
     public Material Material
