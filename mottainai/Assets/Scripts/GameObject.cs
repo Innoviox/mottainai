@@ -35,7 +35,7 @@ public class GameObject : MonoBehaviour
             playerObjects[i].Refresh(i == game.CurrentPlayerIndex);
         }
 
-        DrawFloor();
+        Refresh();
         BeginTurn();
     }
 
@@ -72,13 +72,25 @@ public class GameObject : MonoBehaviour
     void Tick()
     {
         game.Tick();
+        Refresh();
         UpdateLog();
-        HighlightZones(game.Zones);
+        // HighlightZones(game.Zones);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+
+    void UpdateLog()
+    {
+        // Transform log = transform.Find("Canvas/LogText");
+        // log.GetComponent<TMPro.TextMeshProUGUI>().text = game.Log;
+    }
+
+    void Refresh()
+    {
+        DrawFloor();
     }
 }

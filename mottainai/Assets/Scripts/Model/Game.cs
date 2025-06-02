@@ -61,6 +61,8 @@ public class Game
         this.currentPlayerIndex = 0;
         this.floor = new List<Card>();
         this.zones = new List<Zone>();
+        this.actions = new List<Action>();
+        this.actionIndex = 0;
     }
 
     private void LoadCards(string cardsPath)
@@ -152,7 +154,7 @@ public class Game
         {
             players[currentPlayerIndex].HasPlayed = true;
         }
-        
+
         if (actions.Count == 0)
         {
             actionIndex = 0;
@@ -161,7 +163,7 @@ public class Game
 
         if (actionIndex >= actions.Count)
         {
-            EndTurn();
+            // EndTurn(); // todo
             return;
         }
 
@@ -170,15 +172,15 @@ public class Game
 
         SetZones(action);
 
-        if (action.Type == Actions.Dummy)
+        if (action.Type == ActionType.Dummy)
         {
-            foreach (Action action in action.Calculate())
+            foreach (Action newAction in Calculate(action))
             {
-                actions.Insert(actionIndex, action);
+                actions.Insert(actionIndex, newAction);
             }
             Tick();
         }
-        else if (action.Type == Actions.PopTask)
+        else if (action.Type == ActionType.PopTask)
         {
             floor.Add(players[currentPlayerIndex].Temple.Task);
             players[currentPlayerIndex].Temple.Task = null;
@@ -193,35 +195,84 @@ public class Game
         actions.Clear();
 
         // dummy morning task
-        actions.Add(new Action(Actions.Dummy, "Morning begins"));
+        actions.Add(new Action(ActionType.Dummy, "Morning begins"));
         // return to limit of 5
         if (players[currentPlayerIndex].Hand.Count > 5)
         {
-            actions.Add(new Action(Actions.Return, "Return to hand limit of 5"));
+            actions.Add(new Action(ActionType.Return, "Return to hand limit of 5"));
         }
         else
         {
-            actions.Add(new Action(Actions.Dummy, "Return to hand limit of 5"));
+            actions.Add(new Action(ActionType.Dummy, "Return to hand limit of 5"));
         }
         // pop task
-        actions.Add(new Action(Actions.PopTask, "Pop task from temple to floor"));
+        actions.Add(new Action(ActionType.PopTask, "Pop task from temple to floor"));
         // perform "in the morning" effects (dummy for now)
-        actions.Add(new Action(Actions.Dummy, "Perform morning effects"));
+        actions.Add(new Action(ActionType.Dummy, "Perform morning effects"));
         // choose new task
-        actions.Add(new Action(Actions.ChooseTask, "Choose a new task"));
+        actions.Add(new Action(ActionType.ChooseTask, "Choose a new task"));
         // dummy noon task
-        actions.Add(new Action(Actions.Dummy, "Noon begins"));
+        actions.Add(new Action(ActionType.Dummy, "Noon begins"));
         // "calculate left task"
-        actions.Add(new Action(Actions.Dummy, "Calculate left task"));
+        actions.Add(new Action(ActionType.Dummy, "Calculate left task", ActionType.LTask));
         // "calculate right task"
-        actions.Add(new Action(Actions.Dummy, "Calculate right task"));
+        actions.Add(new Action(ActionType.Dummy, "Calculate right task", ActionType.RTask));
         // "calculate center task"
-        actions.Add(new Action(Actions.Dummy, "Calculate center task"));
+        actions.Add(new Action(ActionType.Dummy, "Calculate center task", ActionType.CTask));
         // dummy night task
-        actions.Add(new Action(Actions.Dummy, "Night begins"));
+        actions.Add(new Action(ActionType.Dummy, "Night begins"));
         // perform "in the night" effects (dummy for now)
-        actions.Add(new Action(Actions.Dummy, "Perform night effects"));
+        actions.Add(new Action(ActionType.Dummy, "Perform night effects"));
         // waiting area to hand
-        actions.Add(new Action(Actions.DrawWaiting, "Draw cards from waiting area to hand"));
+        actions.Add(new Action(ActionType.DrawWaiting, "Draw cards from waiting area to hand"));
+    }
+
+    private void SetZones(Action action)
+    {
+        zones.Clear();
+
+        switch (action.Type)
+        {
+            case ActionType.Dummy:
+            case ActionType.PopTask:
+            case ActionType.DrawWaiting:
+                break;
+            case ActionType.ChooseTask:
+                for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
+                {
+                    zones.Add(new Zone(ZoneType.Hand, i));
+                }
+                break;
+            default:
+                Debug.Log("Unhandled action type: " + action.Type);
+                break;
+        }
+    }
+
+    private List<Action> Calculate(Action action)
+    {
+        List<Action> newActions = new List<Action>();
+
+        // todo handle LTask, RTask, CTask
+        // todo handle works
+
+        return newActions;
+    }
+
+    public string Log
+    {
+        get
+        {
+            string log = "";
+            for (int i = 0; i < actions.Count; i++)
+            {
+                if (i == actionIndex - 1)
+                {
+                    log += $"> ";
+                }
+                log += $"{actions[i].Description}\n";
+            }
+            return log;
+        }
     }
 }

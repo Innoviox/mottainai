@@ -10,7 +10,7 @@ public enum Material
     Metal
 }
 
-public enum Zones
+public enum ZoneType
 {
     Task,
     Helpers,
@@ -27,16 +27,16 @@ public enum Zones
 
 public class Zone
 {
-    public Zones ZoneType { get; private set; }
+    public ZoneType Type { get; private set; }
     public int Value { get; private set; }
-    public Zone(Zones zoneType, int value)
+    public Zone(ZoneType type, int value)
     {
-        ZoneType = zoneType;
+        Type = type;
         Value = value;
     }
 }
 
-public enum Actions
+public enum ActionType
 {
     Dummy,
     Return,
@@ -52,12 +52,15 @@ public enum Actions
 
 public class Action
 {
-    public Actions Type { get; private set; }
+    public ActionType Type { get; private set; }
     public string Description { get; private set; }
-    public Action(Actions type, string description)
+    public ActionType SecondaryType { get; private set; }
+
+    public Action(ActionType type, string description, ActionType secondaryType = ActionType.Dummy)
     {
         Type = type;
         Description = description;
+        SecondaryType = secondaryType;
     }
 }
 
