@@ -32,7 +32,7 @@ public class GameObject : MonoBehaviour
         for (int i = 0; i < playerObjects.Length; i++)
         {
             playerObjects[i].Player = game.Players[i];
-            playerObjects[i].Refresh();
+            playerObjects[i].Refresh(i == game.CurrentPlayerIndex);
         }
 
         DrawFloor();

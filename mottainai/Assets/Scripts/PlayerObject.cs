@@ -29,20 +29,30 @@ public class PlayerObject : MonoBehaviour
         gameObject.SetActive(show);
     }
 
-    public void Refresh()
+    public void Refresh(bool active)
     {
-        // foreach (Transform child in transform)
-        // {
-        //     Destroy(child.gameObject);
-        // }
+        DrawHand(active);
+    }
 
-        // for (int i = 0; i < player.Hand.Count; i++)
-        // {
-        //     Transform cardTransform = Instantiate(cardPrefab, new Vector3(i * 10, 0, 0), Quaternion.identity, transform);
-        //     CardObject cardObject = cardTransform.GetComponent<CardObject>();
-        //     cardObject.Card = player.Hand[i];
-        //     cardObject.Refresh();
-        // }
+    public void DrawHand(bool active)
+    {
+        Transform hand = transform.Find("Hand");
+        foreach (Transform child in hand)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (active)
+        {
+            for (int i = 0; i < player.Hand.Count; i++)
+            {
+                Transform cardTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, hand);
+                CardObject cardObject = cardTransform.GetComponent<CardObject>();
+                cardObject.Card = player.Hand[i];
+                cardObject.transform.localPosition = new Vector3(i * 40, 0, 0);
+                cardObject.Refresh();
+            }
+        }
     }
 
     public void Reposition(int index, int currentIndex)
@@ -54,12 +64,12 @@ public class PlayerObject : MonoBehaviour
         }
         else if (index == (currentIndex + 1) % 3)
         {
-            transform.position = new Vector3(-100, 10, 0);
+            transform.position = new Vector3(-145, 10, 0);
             transform.rotation = Quaternion.Euler(0, 0, -90);
         }
         else if (index == (currentIndex + 2) % 3)
         {
-            transform.position = new Vector3(100, 10, 0);
+            transform.position = new Vector3(145, 10, 0);
             transform.rotation = Quaternion.Euler(0, 0, 90);
         }
     }
