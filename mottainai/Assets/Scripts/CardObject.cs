@@ -25,6 +25,15 @@ public class CardObject : MonoBehaviour
 
     public void Refresh()
     {
-        
+        transform.Find("Canvas/Name").GetComponent<TMPro.TextMeshProUGUI>().text = card.Name.ToUpper();
+        transform.Find("Canvas/Description").GetComponent<TMPro.TextMeshProUGUI>().text = card.Description;
+        transform.Find("Canvas/Type1").GetComponent<TMPro.TextMeshProUGUI>().text = Utils.MaterialToString(card.Material);
+        transform.Find("Canvas/Type2").GetComponent<TMPro.TextMeshProUGUI>().text = Utils.MaterialToString(card.Material);
+        transform.Find("Canvas/Type3").GetComponent<TMPro.TextMeshProUGUI>().text = Utils.GetJob(card.Material);
+        transform.Find("Canvas/Value").GetComponent<TMPro.TextMeshProUGUI>().text = card.Value.ToString();
+
+        // var sprite = UnityEngine.Resources.Load<Sprite>(card.ImagePath);
+        // Debug.Log($"Loaded sprite : {sprite != null}");
+        // transform.Find("Image").GetComponent<SpriteRenderer>().sprite = sprite;
     }
 }

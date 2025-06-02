@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class Card
 {
     private Material material;
@@ -5,6 +7,9 @@ public class Card
     private string name;
     private string description;
     private string imagePath;
+    private Sprite backSprite;
+    private Sprite imageSprite;
+
 
     public Card(Material material, string name, string description)
     {
@@ -61,6 +66,7 @@ public class Card
     {
         get { return imagePath; }
     }
+
 
     public override string ToString()
     {

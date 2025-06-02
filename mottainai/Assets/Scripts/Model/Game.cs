@@ -20,9 +20,14 @@ public class Game
 
     private List<Card> deck;
     private List<Card> floor;
+    private Sprite[] backs;
+    private Sprite[] cardSprites;
 
-    public Game(string cardsPath)
+    public Game(string cardsPath, Sprite[] backs, Sprite[] cardSprites)
     {
+        this.backs = backs;
+        this.cardSprites = cardSprites;
+
         LoadCards(cardsPath);
 
         this.players = new Player[3];
@@ -31,7 +36,7 @@ public class Game
             players[i] = new Player();
         }
 
-        
+
         this.currentPlayerIndex = 0;
         this.floor = new List<Card>();
     }

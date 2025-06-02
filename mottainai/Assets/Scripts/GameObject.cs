@@ -6,6 +6,8 @@ public class GameObject : MonoBehaviour
 {
     public Transform playerPrefab;
     public string cardsPath;
+    public Sprite[] backs;
+    public Sprite[] cardSprites;
 
     private Game game;
 
@@ -23,7 +25,7 @@ public class GameObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        game = new Game(cardsPath);
+        game = new Game(cardsPath, backs, cardSprites);
         game.Deal();
 
         for (int i = 0; i < playerObjects.Length; i++)
