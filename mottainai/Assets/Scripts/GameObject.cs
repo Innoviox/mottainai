@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameObject : MonoBehaviour
 {
     public Transform playerPrefab;
+    public Transform cardPrefab;
     public string cardsPath;
     public Sprite[] backs;
     public Sprite[] cardSprites;
@@ -50,9 +51,10 @@ public class GameObject : MonoBehaviour
 
         for (int i = 0; i < game.Floor.Count; i++)
         {
-            Transform cardTransform = Instantiate(playerObjects[0].cardPrefab, new Vector3(i * 10, 0, 0), Quaternion.identity, floorTransform);
+            Transform cardTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, floorTransform);
             CardObject cardObject = cardTransform.GetComponent<CardObject>();
             cardObject.Card = game.Floor[i];
+            cardObject.transform.localPosition = new Vector3(i * 40, 0, 0);
             cardObject.Refresh();
         }
     }

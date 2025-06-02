@@ -214,6 +214,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 928153757825497101, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 928153757825497101, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 928153757825497101, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269559158269608995, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 29.9442
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269559158269608995, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 40.1916
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269559158269608995, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1757.946
+      objectReference: {fileID: 0}
+    - target: {fileID: 1269559158269608995, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -938.9934
+      objectReference: {fileID: 0}
     - target: {fileID: 3356236318429113714, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -266,6 +294,10 @@ PrefabInstance:
       propertyPath: cardsPath
       value: Assets/cards.txt
       objectReference: {fileID: 0}
+    - target: {fileID: 8619904575444773479, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
+      propertyPath: cardPrefab
+      value: 
+      objectReference: {fileID: 6730464481061545610, guid: 52d314eb1353943cdaff9474a8852a89, type: 3}
     - target: {fileID: 8619904575444773479, guid: 73179eefd1da24087a428df00a9f9619, type: 3}
       propertyPath: playerPrefab
       value: 
