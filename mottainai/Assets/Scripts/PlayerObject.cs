@@ -41,6 +41,15 @@ public class PlayerObject : MonoBehaviour
         if (player.HasPlayed)
         {
             dummyTask.gameObject.SetActive(false);
+            if (player.Temple.Task != null)
+            {
+                Transform taskTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
+                CardObject cardObject = taskTransform.GetComponent<CardObject>();
+                cardObject.Card = player.Temple.Task;
+                cardObject.transform.localPosition = new Vector3(0, 15, 0);
+                cardObject.transform.localRotation = Quaternion.Euler(0, 0, 270);
+                cardObject.Refresh();
+            }
         }
         else
         {
@@ -95,6 +104,7 @@ public class PlayerObject : MonoBehaviour
         Transform hand = transform.Find("Hand");
         Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, hand);
         highlightTransform.localPosition = new Vector3(index * 40, 0, 0);
+        highlightTransform.name = "CardHighlight_" + index;
         highlights.Add(highlightTransform);
     }
 

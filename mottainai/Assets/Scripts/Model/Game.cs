@@ -287,4 +287,17 @@ public class Game
             return actions[actionIndex];
         }
     }
+
+    public void ChooseTask(int index)
+    {
+        if (index < 0 || index >= players[currentPlayerIndex].Hand.Count || currentAction == null || currentAction.Type != ActionType.ChooseTask)
+        {
+            Debug.LogError("Invalid task index: " + index);
+            return;
+        }
+
+        Card chosenCard = players[currentPlayerIndex].Hand[index];
+        players[currentPlayerIndex].Hand.RemoveAt(index);
+        players[currentPlayerIndex].Temple.Task = chosenCard;
+    }
 }

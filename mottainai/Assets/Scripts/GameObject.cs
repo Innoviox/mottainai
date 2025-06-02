@@ -99,13 +99,14 @@ public class GameObject : MonoBehaviour
         if (!rayHit.collider) return;
 
         Transform hitTransform = rayHit.collider.transform;
-        Debug.Log("Hit: " + hitTransform.name);
         if (game.currentAction != null)
         {
             if (game.currentAction.Type == ActionType.ChooseTask) {
                 if (hitTransform.name.StartsWith("CardHighlight"))
                 {
-                    
+                    int index = int.Parse(hitTransform.name.Split('_')[1]);
+                    game.ChooseTask(index);
+                    Tick();
                 }
             }
         }
