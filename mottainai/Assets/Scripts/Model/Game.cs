@@ -23,7 +23,7 @@ public class Game
     {
         get { return deck; }
     }
-    
+
     private List<Card> floor;
     public List<Card> Floor
     {
@@ -32,6 +32,17 @@ public class Game
 
     private Sprite[] backs;
     private Sprite[] cardSprites;
+    private List<Zone> zones;
+    public List<Zone> Zones
+    {
+        get { return zones; }
+    }
+    private List<Action> actions;
+    public List<Action> Actions
+    {
+        get { return actions; }
+    }
+    private int actionIndex = 0;
 
     public Game(string cardsPath, Sprite[] backs, Sprite[] cardSprites)
     {
@@ -49,13 +60,14 @@ public class Game
 
         this.currentPlayerIndex = 0;
         this.floor = new List<Card>();
+        this.zones = new List<Zone>();
     }
 
     private void LoadCards(string cardsPath)
     {
         deck = new List<Card>();
 
-        StreamReader reader = new StreamReader(cardsPath); 
+        StreamReader reader = new StreamReader(cardsPath);
 
         string[] lines = reader.ReadToEnd().Split('\n');
 
@@ -132,5 +144,84 @@ public class Game
         Card dealtCard = deck[0];
         deck.RemoveAt(0);
         return dealtCard;
+    }
+
+    public void Tick()
+    {
+        if (!players[currentPlayerIndex].HasPlayed)
+        {
+            players[currentPlayerIndex].HasPlayed = true;
+        }
+        
+        if (actions.Count == 0)
+        {
+            actionIndex = 0;
+            SetActions();
+        }
+
+        if (actionIndex >= actions.Count)
+        {
+            EndTurn();
+            return;
+        }
+
+        Action action = actions[actionIndex];
+        actionIndex++;
+
+        SetZones(action);
+
+        if (action.Type == Actions.Dummy)
+        {
+            foreach (Action action in action.Calculate())
+            {
+                actions.Insert(actionIndex, action);
+            }
+            Tick();
+        }
+        else if (action.Type == Actions.PopTask)
+        {
+            floor.Add(players[currentPlayerIndex].Temple.Task);
+            players[currentPlayerIndex].Temple.Task = null;
+
+            Tick();
+        }
+    }
+
+    private void SetActions()
+    {
+        // clear actions
+        actions.Clear();
+
+        // dummy morning task
+        actions.Add(new Action(Actions.Dummy, "Morning begins"));
+        // return to limit of 5
+        if (players[currentPlayerIndex].Hand.Count > 5)
+        {
+            actions.Add(new Action(Actions.Return, "Return to hand limit of 5"));
+        }
+        else
+        {
+            actions.Add(new Action(Actions.Dummy, "Return to hand limit of 5"));
+        }
+        // pop task
+        actions.Add(new Action(Actions.PopTask, "Pop task from temple to floor"));
+        // perform "in the morning" effects (dummy for now)
+        actions.Add(new Action(Actions.Dummy, "Perform morning effects"));
+        // choose new task
+        actions.Add(new Action(Actions.ChooseTask, "Choose a new task"));
+        // dummy noon task
+        actions.Add(new Action(Actions.Dummy, "Noon begins"));
+        // "calculate left task"
+        actions.Add(new Action(Actions.Dummy, "Calculate left task"));
+        // "calculate right task"
+        actions.Add(new Action(Actions.Dummy, "Calculate right task"));
+        // "calculate center task"
+        actions.Add(new Action(Actions.Dummy, "Calculate center task"));
+        // dummy night task
+        actions.Add(new Action(Actions.Dummy, "Night begins"));
+        // perform "in the night" effects (dummy for now)
+        actions.Add(new Action(Actions.Dummy, "Perform night effects"));
+        // waiting area to hand
+        actions.Add(new Action(Actions.DrawWaiting, "Draw cards from waiting area to hand"));
     }
 }

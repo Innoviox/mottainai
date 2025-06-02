@@ -65,7 +65,16 @@ public class GameObject : MonoBehaviour
         {
             playerObjects[i].Reposition(i, game.CurrentPlayerIndex);
         }
-     }
+
+        Tick();
+    }
+
+    void Tick()
+    {
+        game.Tick();
+        UpdateLog();
+        HighlightZones(game.Zones);
+    }
 
     // Update is called once per frame
     void Update()
