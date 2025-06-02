@@ -85,12 +85,16 @@ public class GameObject : MonoBehaviour
 
     void UpdateLog()
     {
-        // Transform log = transform.Find("Canvas/LogText");
-        // log.GetComponent<TMPro.TextMeshProUGUI>().text = game.Log;
+        Transform log = transform.Find("Canvas/Scroll View/Viewport/Log");
+        log.GetComponent<TMPro.TextMeshProUGUI>().text = game.Log;
     }
 
     void Refresh()
     {
         DrawFloor();
+        for (int i = 0; i < playerObjects.Length; i++)
+        {
+            playerObjects[i].Refresh(i == game.CurrentPlayerIndex);
+        }
     }
 }
