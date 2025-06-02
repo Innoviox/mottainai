@@ -1,10 +1,13 @@
+using System.Collections;
+using System.Collections.Generic;
+
 public class Temple
 {
-    private Card? action;
-    private Card[] helpers;
-    private Card[] sales;
-    private Card[] craftBench;
-    private Card[] gallery;
-    private Card[] giftShop;
-    
+    private Card? task;
+    private List<Card> helpers;
+    private List<Card> sales;
+    private List<Card> craftBench;
+    private List<Card> gallery;
+    private List<Card> giftShop;
+
 }
