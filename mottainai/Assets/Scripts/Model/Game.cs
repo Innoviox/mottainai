@@ -309,21 +309,20 @@ public class Game
             zones.Add(players[currentPlayerIndex].GetZone("Amulet", new List<Button> { Button.No }));
         }
 
-        // if (action.Type == ActionType.Clerk && players[currentPlayerIndex].HasWork("Bell"))
-        // {
-        //     zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
-        // }
+        if (action.Type == ActionType.Clerk && players[currentPlayerIndex].HasWork("Bell"))
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Bell", new List<Button> { Button.Yes }));
+        }
 
-        // if (action.Type == ActionType.Bowl)
-        // {
-        //     zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
-        //     zones.Add(players[currentPlayerIndex].GetZone("Bowl"));
-        // }
+        if (action.Type == ActionType.Bowl)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Bowl", new List<Button> { Button.Yes, Button.No }));
+        }
 
-        // if (action.Type == ActionType.Chopsticks)
-        // {
-        //     zones.Add(players[currentPlayerIndex].GetZone("Chopsticks"));
-        // }
+        if (action.Type == ActionType.Chopsticks)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Chopsticks", new List<Button> { Button.Yes, Button.No }));
+        }
 
         switch (action.Type)
         {
@@ -564,6 +563,30 @@ public class Game
         Card clerkCard = players[currentPlayerIndex].Temple.CraftBench[index];
         players[currentPlayerIndex].Temple.Sales.Add(clerkCard);
         players[currentPlayerIndex].Temple.CraftBench.RemoveAt(index);
+    }
+
+    public void Bell()
+    {
+        players[currentPlayerIndex].Temple.Sales.Add(DealCard());
+    }
+
+    public void Bowl()
+    {
+        players[currentPlayerIndex].Temple.CraftBench.Add(DealCard());
+    }
+
+    public void Chopsticks(bool use)
+    {
+        if (use)
+        {
+            players[currentPlayerIndex].Temple.Sales.Add(players[currentPlayerIndex].Temple.Task);
+            players[currentPlayerIndex].Temple.Task = null;
+        }
+        else
+        {
+            floor.Add(players[currentPlayerIndex].Temple.Task);
+            players[currentPlayerIndex].Temple.Task = null;
+        }
     }
 
     public void TailorReturn(int index)

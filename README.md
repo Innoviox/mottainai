@@ -10,11 +10,11 @@ To MVP:
 - [ ] text
   - [x] Amulet
    - [x] Bangle
-   - [ ] Bell
+   - [x] Bell
    - [x] Bench
-   - [ ] Bowl
+   - [x] Bowl
    - [x] Brick
-   - [ ] Chopsticks
+   - [x] Chopsticks
    - [ ] Cloak
    - [x] Coin
    - [ ] Crane
@@ -73,4 +73,5 @@ For better UI:
     - [ ] Lampshade
     - [ ] Quilt
 - [ ] fix card colors
+- [ ] custom order for morning actions
 

@@ -214,7 +214,7 @@ public class PlayerObject : MonoBehaviour
                 {
                     Transform buttonTransform = Instantiate(buttonPrefabs[button], new Vector3(0, 0, 0), Quaternion.identity, transform);
                     buttonTransform.localPosition = new Vector3((side ? 1 : -1) * (50 + 40 * value - 10 * i), 20, 0);
-                    buttonTransform.name = "Button_" + button.ToString() + "_" + value;
+                    buttonTransform.name = "Button_" + button.ToString() + "_" + (side ? player.Temple.Gallery : player.Temple.GiftShop)[value].Name;
                     highlights.Add(buttonTransform);
                 }
                 else

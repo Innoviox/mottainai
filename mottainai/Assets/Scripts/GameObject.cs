@@ -173,9 +173,33 @@ public class GameObject : MonoBehaviour
             else if (hitTransform.name.StartsWith("Button_No"))
             {
                 Debug.Log("[gameobject] Clicked No button");
-                if (game.currentAction.Type == ActionType.Amulet)
+                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl)
                 {
                     Tick();
+                }
+                else if (game.currentAction.Type == ActionType.Chopsticks)
+                {
+                    game.Chopsticks(false);
+                    Tick("clicked chopsticks no");
+                }
+            }
+            else if (hitTransform.name.StartsWith("Button_Yes"))
+            {
+                string item = hitTransform.name.Split("_")[2];
+                if (item == "Bell")
+                {
+                    game.Bell();
+                    Tick("clicked bell");
+                }
+                else if (item == "Bowl")
+                {
+                    game.Bowl();
+                    Tick("Clicked bowl");
+                }
+                else if (item == "Chopsticks")
+                {
+                    game.Chopsticks(true);
+                    Tick("clicked chopsticks yes");
                 }
             }
         }
