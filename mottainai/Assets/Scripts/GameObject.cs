@@ -130,6 +130,28 @@ public class GameObject : MonoBehaviour
                 game.Monk(index);
                 Tick("clicked floor");
             }
+            else if (game.currentAction.Type == ActionType.Return && hitTransform.name.StartsWith("CardHighlight_Hand"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                game.Return(index);
+            }
+            else if (game.currentAction.IsTask() && hitTransform.name.StartsWith("CardHighlight_Hand") && game.currentAction.Type != ActionType.Tailor)
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                game.StartCraft(index);
+            }
+            else if (game.currentAction.Type == ActionType.ChooseSide && hitTransform.name.startsWith("SideHighlight"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[1]);
+                game.EndCraft(game.currentAction.Value, index == 0);
+                Tick("clicked side highlight");
+            }
+            else if (game.currentAction.Type == ActionType.Clerk && hitTransform.name.StartsWith("CardHighlight_Sales"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                game.Clerk(index);
+                Tick("clicked sales");
+            }
         }
     }
 

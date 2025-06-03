@@ -64,6 +64,9 @@ public enum ActionType
     Potter,
     Smith,
     Prayer,
+    HandSupport,
+    BenchSupport,
+    ChooseSide,
 }
 
 public class Action
@@ -71,6 +74,8 @@ public class Action
     public ActionType Type { get; private set; }
     public string Description { get; private set; }
     public ActionType SecondaryType { get; private set; }
+
+    public int Value { get; set; } // Optional value for some actions
 
     public Action(ActionType type, string description, ActionType secondaryType = ActionType.Dummy)
     {

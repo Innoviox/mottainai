@@ -309,6 +309,12 @@ public class Game
                     }
                 }
                 break;
+            case ActionType.Return:
+                for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
+                {
+                    zones.Add(new Zone(ZoneType.Hand, i));
+                }
+                break;
             default:
                 Debug.Log("Unhandled action type: " + action.Type);
                 break;
@@ -408,5 +414,46 @@ public class Game
         Card monkCard = floor[index];
         players[currentPlayerIndex].Temple.Helpers.Add(monkCard);
         floor.RemoveAt(index);
+    }
+
+    public void Return(int index)
+    {
+        Card returnedCard = players[currentPlayerIndex].Hand[index];
+        players[currentPlayerIndex].Hand.RemoveAt(index);
+        deck.Add(returnedCard);
+
+        if (players[currentPlayerIndex].Hand.Count <= 5)
+        {
+            NeedTick = true;
+        }
+    }
+
+    public void StartCraft(int index)
+    {
+        Action act = new Action(ActionType.ChooseSide, "Choose side for crafting", ActionType.Dummy);
+        act.Value = index;
+        actions.Insert(actionIndex + 1, act);
+        NeedTick = true;
+    }
+
+    public void EndCraft(int index, bool left)
+    {
+        Card card = players[currentPlayerIndex].Hand[index];
+        if (left)
+        {
+            players[currentPlayerIndex].Temple.Gallery.Add(card);
+        }
+        else
+        {
+            players[currentPlayerIndex].Temple.GiftShop.Add(card);
+        }
+        players[currentPlayerIndex].Hand.RemoveAt(index);
+    }
+
+    public void Clerk(int index)
+    {
+        Card clerkCard = players[currentPlayerIndex].Temple.CraftBench[index];
+        players[currentPlayerIndex].Temple.Sales.Add(clerkCard);
+        players[currentPlayerIndex].Temple.CraftBench.RemoveAt(index);
     }
 }
