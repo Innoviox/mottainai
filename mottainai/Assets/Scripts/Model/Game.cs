@@ -124,6 +124,7 @@ public class Game
         }
 
         currentPlayerIndex = bestIndex;
+        currentPlayerIndex = 0;
     }
 
     private void ShuffleDeck()
@@ -134,6 +135,30 @@ public class Game
             Card temp = deck[i];
             deck[i] = deck[j];
             deck[j] = temp;
+        }
+        MoveCardToFront("Amulet");
+        MoveCardToFront("Chopsticks");
+        MoveCardToFront("Bell");
+        MoveCardToFront("Bench");
+        MoveCardToFront("Doll");
+        MoveCardToFront("Curtain");
+        MoveCardToFront("Tower");
+        MoveCardToFront("Mask");
+        MoveCardToFront("Cloak");
+        MoveCardToFront("Bangle");
+    }
+    
+    private void MoveCardToFront(string cardName)
+    {
+        for (int i = 0; i < deck.Count; i++)
+        {
+            if (deck[i].Name == cardName)
+            {
+                Card card = deck[i];
+                deck.RemoveAt(i);
+                deck.Insert(0, card);
+                return;
+            }
         }
     }
 
@@ -281,7 +306,7 @@ public class Game
 
         if (action.Type == ActionType.Amulet)
         {
-            zones.Add(players[currentPlayerIndex].GetZone("Amulet"));
+            zones.Add(players[currentPlayerIndex].GetZone("Amulet", new List<Button> { Button.No }));
         }
 
         // if (action.Type == ActionType.Clerk && players[currentPlayerIndex].HasWork("Bell"))
@@ -524,7 +549,7 @@ public class Game
         }
         players[currentPlayerIndex].Hand.RemoveAt(index);
 
-        if (players[currentPlayerIndex].HasWork("Amulet"))
+        if (players[currentPlayerIndex].HasWork("Amulet") && players[currentPlayerIndex].Temple.CraftBench.Count > 0)
         {
             actions.Insert(actionIndex + 1, new Action(ActionType.Amulet, "Optionally activate amulet", ActionType.Work));
         }

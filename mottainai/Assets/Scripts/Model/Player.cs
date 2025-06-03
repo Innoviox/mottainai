@@ -237,20 +237,20 @@ public class Player
         return mostSoldMaterial;
     }
 
-    public Zone GetZone(string work)
+    public Zone GetZone(string work, List<Button> buttons = null)
     {
         for (int i = 0; i < Temple.Gallery.Count; i++)
         {
             if (Temple.Gallery[i].Name == work)
             {
-                return new Zone(ZoneType.Gallery, i);
+                return new Zone(ZoneType.Gallery, i, buttons);
             }
         }
         for (int i = 0; i < Temple.GiftShop.Count; i++)
         {
             if (Temple.GiftShop[i].Name == work)
             {
-                return new Zone(ZoneType.GiftShop, i);
+                return new Zone(ZoneType.GiftShop, i, buttons);
             }
         }
 

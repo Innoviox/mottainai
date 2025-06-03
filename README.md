@@ -8,7 +8,7 @@ To MVP:
 - [x] scoring
   - [x] display score on temple
 - [ ] text
-  - [ ] Amulet
+  - [x] Amulet
    - [x] Bangle
    - [ ] Bell
    - [x] Bench

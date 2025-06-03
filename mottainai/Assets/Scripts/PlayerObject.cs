@@ -7,6 +7,9 @@ public class PlayerObject : MonoBehaviour
     public Transform cardPrefab;
     public Transform cardHighlightPrefab;
     public Transform tailorButtonPrefab;
+    public Transform yesPrefab;
+    public Transform noPrefab;
+    private Dictionary<Button, Transform> buttonPrefabs = new Dictionary<Button, Transform>();
 
     private Player player;
     public Player Player
@@ -22,6 +25,8 @@ public class PlayerObject : MonoBehaviour
     void Start()
     {
         highlights = new List<Transform>();
+        buttonPrefabs[Button.Yes] = yesPrefab;
+        buttonPrefabs[Button.No] = noPrefab;
     }
 
     // Update is called once per frame
@@ -191,12 +196,33 @@ public class PlayerObject : MonoBehaviour
         }
     }
 
-    public void HighlightSide(bool side, int value)
+    public void HighlightSide(bool side, int value, List<Button> buttons)
     {
-        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
-        highlightTransform.localPosition = new Vector3((side ? -1 : 1) * (50 + 40 * value), 0, 0);
-        highlightTransform.name = "CardHighlight_Side_" + value;
-        highlights.Add(highlightTransform);
+        if (buttons == null || buttons.Count == 0)
+        {
+            Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
+            highlightTransform.localPosition = new Vector3((side ? -1 : 1) * (50 + 40 * value), 0, 0);
+            highlightTransform.name = "CardHighlight_Side_" + (side ? 0 : 1);
+            highlights.Add(highlightTransform);
+        }
+        else
+        {
+            for (int i = 0; i < buttons.Count; i++)
+            {
+                Button button = buttons[i];
+                if (buttonPrefabs.ContainsKey(button))
+                {
+                    Transform buttonTransform = Instantiate(buttonPrefabs[button], new Vector3(0, 0, 0), Quaternion.identity, transform);
+                    buttonTransform.localPosition = new Vector3((side ? 1 : -1) * (50 + 40 * value - 10 * i), 20, 0);
+                    buttonTransform.name = "Button_" + button.ToString() + "_" + value;
+                    highlights.Add(buttonTransform);
+                }
+                else
+                {
+                    Debug.LogWarning("Button prefab not found for: " + button);
+                }
+            }
+        }
     }
 
     public void HighlightCraftBench(int value)

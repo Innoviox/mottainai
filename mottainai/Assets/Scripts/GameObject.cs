@@ -170,6 +170,14 @@ public class GameObject : MonoBehaviour
                 game.Tailor();
                 Tick(reason: "clicked tailor task");
             }
+            else if (hitTransform.name.StartsWith("Button_No"))
+            {
+                Debug.Log("[gameobject] Clicked No button");
+                if (game.currentAction.Type == ActionType.Amulet)
+                {
+                    Tick();
+                }
+            }
         }
     }
 
@@ -198,7 +206,7 @@ public class GameObject : MonoBehaviour
     {
         foreach (Zone zone in zones)
         {
-            // Debug.Log("Highlighting " + zone.ToString());
+            Debug.Log("Highlighting " + zone.ToString());
             switch (zone.Type)
             {
                 case ZoneType.Hand:
@@ -211,10 +219,10 @@ public class GameObject : MonoBehaviour
                     HighlightDeck();
                     break;
                 case ZoneType.Gallery:
-                    playerObjects[game.CurrentPlayerIndex].HighlightSide(true, zone.Value);
+                    playerObjects[game.CurrentPlayerIndex].HighlightSide(false, zone.Value, zone.Buttons);
                     break;
                 case ZoneType.GiftShop:
-                    playerObjects[game.CurrentPlayerIndex].HighlightSide(false, zone.Value);
+                    playerObjects[game.CurrentPlayerIndex].HighlightSide(true, zone.Value, zone.Buttons);
                     break;
                 case ZoneType.CraftBench:
                     playerObjects[game.CurrentPlayerIndex].HighlightCraftBench(zone.Value);

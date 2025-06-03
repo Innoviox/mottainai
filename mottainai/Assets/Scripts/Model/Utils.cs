@@ -28,23 +28,40 @@ public enum ZoneType
     Tailor,
     Monk,
     Potter,
-    Smith,   
+    Smith,
     TailorReturn,
+}
+
+public enum Button
+{
+    Yes,
+    No,
+    Return, // todo
 }
 
 public class Zone
 {
     public ZoneType Type { get; private set; }
     public int Value { get; private set; }
-    public Zone(ZoneType type, int value)
+    public List<Button> Buttons { get; private set; } = new List<Button>();
+
+    public Zone(ZoneType type, int value, List<Button> buttons = null)
     {
         Type = type;
         Value = value;
+        if (buttons != null)
+        {
+            Buttons = buttons;
+        }
+        else
+        {
+            Buttons = new List<Button>();
+        }
     }
 
     public override string ToString()
     {
-        return $"{Type} (Value: {Value})";
+        return $"{Type} - Value: {Value} (Buttons: {string.Join(", ", Buttons)})";
     }
 }
 
