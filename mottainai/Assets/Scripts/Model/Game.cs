@@ -153,11 +153,6 @@ public class Game
     {
         NeedTick = false;
         Debug.Log("Ticking because of " + reason);
-        if (!players[currentPlayerIndex].HasPlayed)
-        {
-            players[currentPlayerIndex].HasPlayed = true;
-        }
-
         if (actions.Count == 0)
         {
             actionIndex = -1;
@@ -194,6 +189,10 @@ public class Game
 
             // Tick("task was popped");
             NeedTick = true;
+            if (!players[currentPlayerIndex].HasPlayed)
+            {
+                players[currentPlayerIndex].HasPlayed = true;
+            }
         }
         else if (action.Type == ActionType.DrawWaiting)
         {

@@ -15,6 +15,7 @@ public class PlayerObject : MonoBehaviour
     }
 
     private List<Transform> highlights = new List<Transform>();
+    private Transform taskTransform;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,11 @@ public class PlayerObject : MonoBehaviour
 
     public void Refresh(bool active)
     {
+        if (taskTransform != null)
+        {
+            Destroy(taskTransform.gameObject);
+            taskTransform = null;
+        }
         DrawHand(active);
 
         Transform dummyTask = transform.Find("DummyTask");
@@ -43,7 +49,8 @@ public class PlayerObject : MonoBehaviour
             dummyTask.gameObject.SetActive(false);
             if (player.Temple.Task != null)
             {
-                Transform taskTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
+                Debug.Log("Drawing task for player: " + player.Temple.Task.Name);
+                taskTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
                 CardObject cardObject = taskTransform.GetComponent<CardObject>();
                 cardObject.Card = player.Temple.Task;
                 cardObject.transform.localPosition = new Vector3(0, 15, 0);
