@@ -8,6 +8,7 @@ public class GameObject : MonoBehaviour
     public Transform playerPrefab;
     public Transform cardPrefab;
     public Transform cardHighlightPrefab;
+    public Transform tailorButtonPrefab;
     public string cardsPath;
     public Sprite[] backs;
     public Sprite[] cardSprites;
@@ -73,11 +74,17 @@ public class GameObject : MonoBehaviour
         Tick("begin turn");
     }
 
-    private void Tick(string reason = "")
+    private void Tick(string reason = "", bool tickGame = true)
     {
         Debug.Log("[gameobject] Tick: " + reason);
+
         ClearHighlights();
-        game.Tick("gameobject ticked");
+
+        if (tickGame)
+        {
+            game.Tick("gameobject ticked");
+        }
+
         Refresh();
         UpdateLog();
     }
@@ -135,7 +142,7 @@ public class GameObject : MonoBehaviour
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.Return(index);
             }
-            else if (game.currentAction.IsTask() && hitTransform.name.StartsWith("CardHighlight_Hand") && game.currentAction.Type != ActionType.Tailor)
+            else if (game.currentAction.IsTask() && hitTransform.name.StartsWith("CardHighlight_Hand"))
             {
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.StartCraft(index);
@@ -151,6 +158,17 @@ public class GameObject : MonoBehaviour
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.Clerk(index);
                 Tick("clicked sales");
+            }
+            else if (game.currentAction.Type == ActionType.Tailor && hitTransform.name.StartsWith("TailorHighlight_"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[1]);
+                game.TailorReturn(index);
+                Tick(reason: "removing deck highlight", tickGame: false);
+            }
+            else if (game.currentAction.Type == ActionType.Tailor && hitTransform.name.StartsWith("CardHighlight_Task_"))
+            {
+                game.Tailor();
+                Tick(reason: "clicked tailor task");
             }
         }
     }
@@ -198,6 +216,18 @@ public class GameObject : MonoBehaviour
                     break;
                 case ZoneType.CraftBench:
                     playerObjects[game.CurrentPlayerIndex].HighlightCraftBench(zone.Value);
+                    break;
+                case ZoneType.TailorReturn:
+                    playerObjects[game.CurrentPlayerIndex].HighlightTailorReturn(zone.Value);
+                    break;
+                case ZoneType.LTask:
+                    playerObjects[(game.CurrentPlayerIndex + 1) % 3].HighlightTask();
+                    break;
+                case ZoneType.RTask:
+                    playerObjects[(game.CurrentPlayerIndex + 2) % 3].HighlightTask();
+                    break;
+                case ZoneType.CTask:
+                    playerObjects[game.CurrentPlayerIndex].HighlightTask();
                     break;
                 default:
                     Debug.Log("Unhandled zone type: " + zone.Type);

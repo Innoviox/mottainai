@@ -290,8 +290,9 @@ public class Game
             case ActionType.Tailor:
                 for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
-                    zones.Add(new Zone(ZoneType.Hand, i));
+                    zones.Add(new Zone(ZoneType.TailorReturn, i));
                 }
+                zones.Add(new Zone(ZoneType.CTask, 0));
                 break;
             case ActionType.Monk:
             case ActionType.Potter:
@@ -458,5 +459,35 @@ public class Game
         Card clerkCard = players[currentPlayerIndex].Temple.CraftBench[index];
         players[currentPlayerIndex].Temple.Sales.Add(clerkCard);
         players[currentPlayerIndex].Temple.CraftBench.RemoveAt(index);
+    }
+
+    public void TailorReturn(int index)
+    {
+        Card tailorCard = players[currentPlayerIndex].Hand[index];
+        players[currentPlayerIndex].Hand.RemoveAt(index);
+        deck.Add(tailorCard);
+
+        // Remove Deck from Zones
+        // Remove TailorReturn from Zones if it's higher than hand count
+        var i = 0;
+        while (i < zones.Count)
+        {
+            if (zones[i].Type == ZoneType.Deck || (zones[i].Type == ZoneType.TailorReturn && zones[i].Value >= players[currentPlayerIndex].Hand.Count))
+            {
+                zones.RemoveAt(i);
+            }
+            else
+            {
+                i++;
+            }
+        }
+    }
+
+    public void Tailor()
+    {
+        while ((players[currentPlayerIndex].Hand.Count + players[currentPlayerIndex].WaitingArea.Count) < 5 && deck.Count > 0)
+        {
+            players[currentPlayerIndex].Hand.Add(DealCard());
+        }
     }
 }

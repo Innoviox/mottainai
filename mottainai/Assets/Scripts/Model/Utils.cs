@@ -12,7 +12,7 @@ public enum Material
 
 public enum ZoneType
 {
-    Task,
+    CTask,
     Helpers,
     Sales,
     CraftBench,
@@ -28,6 +28,7 @@ public enum ZoneType
     Monk,
     Potter,
     Smith,   
+    TailorReturn,
 }
 
 public class Zone

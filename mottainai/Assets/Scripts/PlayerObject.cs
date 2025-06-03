@@ -6,6 +6,7 @@ public class PlayerObject : MonoBehaviour
 {
     public Transform cardPrefab;
     public Transform cardHighlightPrefab;
+    public Transform tailorButtonPrefab;
 
     private Player player;
     public Player Player
@@ -210,6 +211,23 @@ public class PlayerObject : MonoBehaviour
         highlightTransform.localPosition = new Vector3(0, value * -9 - 11, 0);
         highlightTransform.transform.localRotation = Quaternion.Euler(0, 0, -90);
         highlightTransform.name = "CardHighlight_CraftBench_" + value;
+        highlights.Add(highlightTransform);
+    }
+
+    public void HighlightTailorReturn(int index)
+    {
+        Transform hand = transform.Find("Hand");
+        Transform highlightTransform = Instantiate(tailorButtonPrefab, new Vector3(0, 0, 0), Quaternion.identity, hand);
+        highlightTransform.localPosition = new Vector3(index * 40, 40, 0);
+        highlightTransform.name = "TailorHighlight_" + index;
+        highlights.Add(highlightTransform);
+    }
+
+    public void HighlightTask()
+    {
+        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
+        highlightTransform.localPosition = new Vector3(0, 15, 0);
+        highlightTransform.name = "CardHighlight_Task_";
         highlights.Add(highlightTransform);
     }
 }

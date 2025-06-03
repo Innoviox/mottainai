@@ -469,6 +469,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 4722865774893885021, guid: 3f75bc6d4c7d0484cbde2f50b45331c9, type: 3}
   cardPrefab: {fileID: 6730464481061545610, guid: 52d314eb1353943cdaff9474a8852a89, type: 3}
   cardHighlightPrefab: {fileID: 3143531983177864119, guid: 75217a721d73b455181e46ec4a8ddf09, type: 3}
+  tailorButtonPrefab: {fileID: 7078420640410886969, guid: 26f758f82e52e47a9a86ef97349a212a, type: 3}
   cardsPath: Assets/cards.txt
   backs:
   - {fileID: 21300000, guid: 77029ba7bef2f405aa014bd52728184c, type: 3}
