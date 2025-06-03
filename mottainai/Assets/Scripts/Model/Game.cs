@@ -161,7 +161,7 @@ public class Game
             SetActions();
         }
 
-        if (actionIndex >= actions.Count)
+        if (actionIndex >= actions.Count - 1)
         {
             // EndTurn(); // todo
             return;
@@ -174,9 +174,10 @@ public class Game
 
         if (action.Type == ActionType.Dummy)
         {
-            foreach (Action newAction in Calculate(action))
+            List<Action> newActions = Calculate(action);
+            for (int i = 0; i < newActions.Count; i++)
             {
-                actions.Insert(actionIndex, newAction);
+                actions.Insert(actionIndex + 1 + i, newActions[i]);
             }
             Tick();
         }
@@ -231,6 +232,18 @@ public class Game
     {
         zones.Clear();
 
+        if (action.Type == ActionType.Clerk || action.Type == ActionType.Tailor || action.Type == ActionType.Monk || action.Type == ActionType.Potter || action.Type == ActionType.Smith)
+        {
+            zones.Add(new Zone(ZoneType.Deck, 0));
+            for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
+            {
+                if (players[currentPlayerIndex].CanCraftFromBench(i))
+                {
+                    zones.Add(new Zone(ZoneType.Hand, i));
+                }
+            }
+        }
+
         switch (action.Type)
         {
             case ActionType.Dummy:
@@ -241,6 +254,34 @@ public class Game
                 for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
                     zones.Add(new Zone(ZoneType.Hand, i));
+                }
+                break;
+            case ActionType.Clerk:
+                for (int i = 0; i < players[currentPlayerIndex].Temple.CraftBench.Count; i++)
+                {
+                    zones.Add(new Zone(ZoneType.CraftBench, i));
+                }
+                break;
+            case ActionType.Tailor:
+                for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
+                {
+                    zones.Add(new Zone(ZoneType.Hand, i));
+                }
+                break;
+            case ActionType.Monk:
+            case ActionType.Potter:
+                for (int i = 0; i < floor.Count; i++)
+                {
+                    zones.Add(new Zone(ZoneType.Floor, i));
+                }
+                break;
+            case ActionType.Smith:
+                for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
+                {
+                    if (players[currentPlayerIndex].CanCraftFromHand(i))
+                    {
+                        zones.Add(new Zone(ZoneType.Hand, i));
+                    }
                 }
                 break;
             default:
@@ -256,18 +297,28 @@ public class Game
         // todo handle LTask, RTask, CTask
         // todo handle works
 
-        if (action.Type == LTask || action.Type == RTask || action.Type == CTask)
+        if (action.SecondaryType == ActionType.LTask || action.SecondaryType == ActionType.RTask || action.SecondaryType == ActionType.CTask)
         {
-            int playerN = action.Type == LTask ? (currentPlayerIndex + 2) % players.Length :
-                            action.Type == RTask ? (currentPlayerIndex + 1) % players.Length :
+            int playerN = action.SecondaryType == ActionType.LTask ? (currentPlayerIndex + 1) % players.Length :
+                            action.SecondaryType == ActionType.RTask ? (currentPlayerIndex + 2) % players.Length :
                             currentPlayerIndex;
+
+            if (players[playerN].Temple.Task == null || !players[playerN].HasPlayed)
+            {
+                if (action.SecondaryType == ActionType.CTask)
+                {
+                    newActions.Add(new Action(ActionType.Prayer, "Void center task replaced by prayer", action.SecondaryType));
+                }
+                return newActions;
+            }
+
             Material m = players[playerN].Temple.Task.Material;
             int total = players[currentPlayerIndex].TaskCount(m);
             ActionType a = Utils.GetAction(m);
             for (int i = 0; i < total; i++)
             {
-                newActions.Add(new Action(a, $"Perform {a} task #{i+1}", action.Type));
-            }
+                newActions.Add(new Action(a, $"Perform {a} task #{i+1}", action.SecondaryType));
+            }   
         }
 
         return newActions;

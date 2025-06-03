@@ -3,16 +3,33 @@ using System.Collections.Generic;
 
 public class Temple
 {
-    private Card? task;
-    private List<Card> helpers;
-    private List<Card> sales;
-    private List<Card> craftBench;
-    private List<Card> gallery;
-    private List<Card> giftShop;
+    public Card? Task { get; set; }
+    public List<Card> Helpers { get; set; }
+    public List<Card> Sales { get; set; }
+    public List<Card> CraftBench { get; set; }
+    public List<Card> Gallery { get; set; }
+    public List<Card> GiftShop { get; set; }
 
-    public Card? Task
+    public Temple()
     {
-        get { return task; }
-        set { task = value; }
+        Task = null;
+        Helpers = new List<Card>();
+        Sales = new List<Card>();
+        CraftBench = new List<Card>();
+        Gallery = new List<Card>();
+        GiftShop = new List<Card>();
+    }
+
+    public int CountBenchMaterial(Material m)
+    {
+        int count = 0;
+        foreach (Card card in CraftBench)
+        {
+            if (card.Material == m)
+            {
+                count += card.Value;
+            }
+        }
+        return count;
     }
 }

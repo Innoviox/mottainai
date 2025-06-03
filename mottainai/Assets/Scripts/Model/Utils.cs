@@ -58,6 +58,12 @@ public enum ActionType
     CTask,
     AtNight,
     DrawWaiting,
+    Clerk,
+    Tailor,
+    Monk,
+    Potter,
+    Smith,
+    Prayer,
 }
 
 public class Action
@@ -71,6 +77,11 @@ public class Action
         Type = type;
         Description = description;
         SecondaryType = secondaryType;
+    }
+
+    public override string ToString()
+    {
+        return $"{Type} - {Description} (Secondary: {SecondaryType})";
     }
 }
 
