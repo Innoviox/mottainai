@@ -142,7 +142,7 @@ public class GameObject : MonoBehaviour
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.Return(index);
             }
-            else if (game.currentAction.IsTask() && hitTransform.name.StartsWith("CardHighlight_Hand"))
+            else if ((game.currentAction.IsTask() || game.currentAction.Type == ActionType.EndCloak) && hitTransform.name.StartsWith("CardHighlight_Hand"))
             {
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.StartCraft(index);
@@ -173,7 +173,7 @@ public class GameObject : MonoBehaviour
             else if (hitTransform.name.StartsWith("Button_No"))
             {
                 Debug.Log("[gameobject] Clicked No button");
-                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl)
+                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop)
                 {
                     Tick();
                 }
@@ -200,6 +200,14 @@ public class GameObject : MonoBehaviour
                 {
                     game.Chopsticks(true);
                     Tick("clicked chopsticks yes");
+                }
+            }
+            else if (hitTransform.name.StartsWith("Button_Return"))
+            {
+                string item = hitTransform.name.Split("_")[2];
+                if (game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop)
+                {
+                    game.StartCloak();
                 }
             }
         }

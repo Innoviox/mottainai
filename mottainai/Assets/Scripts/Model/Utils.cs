@@ -90,7 +90,9 @@ public enum ActionType
     Amulet,
     Bowl,
     Chopsticks,
-    Cloak,
+    StartCloakGallery, // i forgot about Action.Value when I made these but it's too late now
+    StartCloakGiftShop,
+    EndCloak,
 }
 
 public class Action

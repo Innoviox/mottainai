@@ -15,7 +15,7 @@ To MVP:
    - [x] Bowl
    - [x] Brick
    - [x] Chopsticks
-   - [ ] Cloak
+   - [x] Cloak
    - [x] Coin
    - [ ] Crane
    - [ ] Cup

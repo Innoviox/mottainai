@@ -147,7 +147,7 @@ public class Game
         MoveCardToFront("Cloak");
         MoveCardToFront("Bangle");
     }
-    
+
     private void MoveCardToFront(string cardName)
     {
         for (int i = 0; i < deck.Count; i++)
@@ -224,7 +224,7 @@ public class Game
                 {
                     players[currentPlayerIndex].HasPlayed = true;
                 }
-            }   
+            }
         }
         else if (action.Type == ActionType.DrawWaiting)
         {
@@ -292,7 +292,8 @@ public class Game
         if (action.IsTask())
         {
             int playerN = GetPlayerN(action);
-            if (playerN < 0 || (playerN == currentPlayerIndex || !players[playerN].HasWork("Mask"))) {
+            if (playerN < 0 || (playerN == currentPlayerIndex || !players[playerN].HasWork("Mask")))
+            {
                 zones.Add(new Zone(ZoneType.Deck, 0));
                 for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
@@ -322,6 +323,29 @@ public class Game
         if (action.Type == ActionType.Chopsticks)
         {
             zones.Add(players[currentPlayerIndex].GetZone("Chopsticks", new List<Button> { Button.Yes, Button.No }));
+        }
+
+        if (action.Type == ActionType.StartCloakGallery)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Cloak", new List<Button> { Button.No }));
+            zones.Add(new Zone(ZoneType.Gallery, players[currentPlayerIndex].Temple.Gallery.Count - 1, new List<Button> { Button.Return }));
+        }
+
+        if (action.Type == ActionType.StartCloakGiftShop)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Cloak", new List<Button> { Button.No }));
+            zones.Add(new Zone(ZoneType.GiftShop, players[currentPlayerIndex].Temple.GiftShop.Count - 1, new List<Button> { Button.Return }));
+        }
+
+        if (action.Type == ActionType.EndCloak)
+        {
+            for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
+            {
+                if (players[currentPlayerIndex].Hand[i].Material == Material.Metal)
+                {
+                    zones.Add(new Zone(ZoneType.Hand, i));
+                }
+            }
         }
 
         switch (action.Type)
@@ -381,7 +405,7 @@ public class Game
                 break;
         }
     }
-    
+
     private int GetPlayerN(Action action)
     {
         if (action.SecondaryType == ActionType.LTask)
@@ -541,10 +565,18 @@ public class Game
         if (left)
         {
             players[currentPlayerIndex].Temple.Gallery.Add(card);
+            if (players[currentPlayerIndex].HasWork("Cloak"))
+            {
+                actions.Insert(actionIndex + 1, new Action(ActionType.StartCloakGallery, "Optionally activate cloak", ActionType.Work));
+            }
         }
         else
         {
             players[currentPlayerIndex].Temple.GiftShop.Add(card);
+            if (players[currentPlayerIndex].HasWork("Cloak"))
+            {
+                actions.Insert(actionIndex + 1, new Action(ActionType.StartCloakGiftShop, "Optionally activate cloak", ActionType.Work));
+            }
         }
         players[currentPlayerIndex].Hand.RemoveAt(index);
 
@@ -552,10 +584,7 @@ public class Game
         {
             actions.Insert(actionIndex + 1, new Action(ActionType.Amulet, "Optionally activate amulet", ActionType.Work));
         }
-        if (players[currentPlayerIndex].HasWork("Cloak"))
-        {
-            actions.Insert(actionIndex + 1, new Action(ActionType.Cloak, "Optionally activate cloak", ActionType.Work));
-        }
+
     }
 
     public void Clerk(int index)
@@ -617,5 +646,29 @@ public class Game
         {
             players[currentPlayerIndex].Hand.Add(DealCard());
         }
+    }
+
+    public void StartCloak()
+    {
+        if (currentAction.Type == ActionType.StartCloakGallery)
+        {
+            Card c = players[currentPlayerIndex].Temple.Gallery[players[currentPlayerIndex].Temple.Gallery.Count - 1];
+            players[currentPlayerIndex].Temple.Gallery.RemoveAt(players[currentPlayerIndex].Temple.Gallery.Count - 1);
+            deck.Add(c);
+        }
+        else
+        {
+            Card c = players[currentPlayerIndex].Temple.GiftShop[players[currentPlayerIndex].Temple.GiftShop.Count - 1];
+            players[currentPlayerIndex].Temple.GiftShop.RemoveAt(players[currentPlayerIndex].Temple.GiftShop.Count - 1);
+            deck.Add(c);
+        }
+
+        if (players[currentPlayerIndex].CountHandMaterial(Material.Metal) > 0)
+        {
+            Action act = new Action(ActionType.EndCloak, "Choose metal work to craft for free", ActionType.Dummy);
+            actions.Insert(actionIndex + 1, act);
+        }
+
+        NeedTick = true;
     }
 }
