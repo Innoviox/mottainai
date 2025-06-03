@@ -65,6 +65,8 @@ public class PlayerObject : MonoBehaviour
             transform.Find("Canvas/WaitingCount").GetComponent<TMPro.TextMeshProUGUI>().text = "";
         }
 
+        DrawTemple(active);
+
         ClearHighlights();
     }
 
@@ -126,5 +128,43 @@ public class PlayerObject : MonoBehaviour
             Destroy(highlight.gameObject);
         }
         highlights.Clear();
+    }
+
+    public void DrawTemple(bool active)
+    {
+        Transform temple = transform.Find("Temple");
+        foreach (Transform child in temple)
+        {
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < player.Temple.Helpers.Count; i++)
+        {
+            Transform helperTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, temple);
+            CardObject cardObject = helperTransform.GetComponent<CardObject>();
+            cardObject.Card = player.Temple.Helpers[i];
+            cardObject.transform.localPosition = new Vector3(i * -9 - 20, 3.5f, 0);
+            cardObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            cardObject.Refresh();
+        }
+
+        for (int i = 0; i < player.Temple.Sales.Count; i++)
+        {
+            Transform saleTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, temple);
+            CardObject cardObject = saleTransform.GetComponent<CardObject>();
+            cardObject.Card = player.Temple.Sales[i];
+            cardObject.transform.localPosition = new Vector3(i * 40, -40, 0);
+            cardObject.Refresh();
+        }
+
+        for (int i = 0; i < player.Temple.CraftBench.Count; i++)
+        {
+            Transform benchTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, temple);
+            CardObject cardObject = benchTransform.GetComponent<CardObject>();
+            cardObject.Card = player.Temple.CraftBench[i];
+            cardObject.transform.localPosition = new Vector3(0, i * -9 - 11, 0);
+            cardObject.transform.localRotation = Quaternion.Euler(0, 0, -90);
+            cardObject.Refresh();
+        }
     }
 }

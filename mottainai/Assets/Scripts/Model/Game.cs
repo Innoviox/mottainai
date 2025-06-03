@@ -43,6 +43,7 @@ public class Game
         get { return actions; }
     }
     private int actionIndex = -1;
+    public bool NeedTick { get; set; } = false;
 
     public Game(string cardsPath, Sprite[] backs, Sprite[] cardSprites)
     {
@@ -150,6 +151,7 @@ public class Game
 
     public void Tick(string reason = "")
     {
+        NeedTick = false;
         Debug.Log("Ticking because of " + reason);
         if (!players[currentPlayerIndex].HasPlayed)
         {
@@ -182,20 +184,23 @@ public class Game
                 actions.Insert(actionIndex + 1 + i, newActions[i]);
             }
 
-            Tick("dummy was calculated");
+            // Tick("dummy was calculated");
+            NeedTick = true;
         }
         else if (action.Type == ActionType.PopTask)
         {
             floor.Add(players[currentPlayerIndex].Temple.Task);
             players[currentPlayerIndex].Temple.Task = null;
 
-            Tick("task was popped");
+            // Tick("task was popped");
+            NeedTick = true;
         }
         else if (action.Type == ActionType.DrawWaiting)
         {
             players[currentPlayerIndex].DrawWaiting();
 
-            Tick("draw waiting");
+            // Tick("draw waiting");
+            NeedTick = true;
         }
     }
 
@@ -207,7 +212,8 @@ public class Game
         // reset actions
         actionIndex = -1;
         actions.Clear();
-        Tick("turn was ended");
+        // Tick("turn was ended");
+        NeedTick = true;
     }
 
     private void SetActions()
@@ -389,5 +395,19 @@ public class Game
     public void Pray()
     {
         players[currentPlayerIndex].WaitingArea.Add(DealCard());
+    }
+
+    public void Potter(int index)
+    {
+        Card potterCard = floor[index];
+        players[currentPlayerIndex].Temple.CraftBench.Add(potterCard);
+        floor.RemoveAt(index);
+    }
+
+    public void Monk(int index)
+    {
+        Card monkCard = floor[index];
+        players[currentPlayerIndex].Temple.Helpers.Add(monkCard);
+        floor.RemoveAt(index);
     }
 }

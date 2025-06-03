@@ -89,6 +89,11 @@ public class GameObject : MonoBehaviour
             Debug.Log("[gameobject] Click action release");
             PerformRaycast();
         }
+
+        if (game.NeedTick)
+        {
+            Tick("game needs tick");
+        }
     }
 
     private void PerformRaycast()
@@ -101,24 +106,30 @@ public class GameObject : MonoBehaviour
         Transform hitTransform = rayHit.collider.transform;
         if (game.currentAction != null)
         {
-            if (game.currentAction.Type == ActionType.ChooseTask)
+            Debug.Log("[gameobject] Raycast hit: " + hitTransform.name + " for action: " + game.currentAction.Type);
+            if (game.currentAction.Type == ActionType.ChooseTask && hitTransform.name.StartsWith("CardHighlight_Hand"))
             {
-                if (hitTransform.name.StartsWith("CardHighlight_Hand"))
-                {
-                    int index = int.Parse(hitTransform.name.Split('_')[2]);
-                    game.ChooseTask(index);
-                    Tick("clicked hand");
-                }
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                game.ChooseTask(index);
+                Tick("clicked hand");
             }
-            else if (game.currentAction.IsTask())
+            else if (game.currentAction.IsTask() && hitTransform.name.StartsWith("CardHighlight_Deck"))
             {
-                if (hitTransform.name.StartsWith("CardHighlight_Deck"))
-                {
-                    game.Pray();
-                    Tick("clicked deck");
-                }
+                game.Pray();
+                Tick("clicked deck");
             }
-
+            else if (game.currentAction.Type == ActionType.Potter && hitTransform.name.StartsWith("CardHighlight_Floor"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                game.Potter(index);
+                Tick("clicked floor");
+            }
+            else if (game.currentAction.Type == ActionType.Monk && hitTransform.name.StartsWith("CardHighlight_Floor"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                game.Monk(index);
+                Tick("clicked floor");
+            }
         }
     }
 
