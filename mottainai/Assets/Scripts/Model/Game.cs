@@ -148,8 +148,9 @@ public class Game
         return dealtCard;
     }
 
-    public void Tick()
+    public void Tick(string reason = "")
     {
+        Debug.Log("Ticking because of " + reason);
         if (!players[currentPlayerIndex].HasPlayed)
         {
             players[currentPlayerIndex].HasPlayed = true;
@@ -169,6 +170,7 @@ public class Game
 
         actionIndex++;
         Action action = actions[actionIndex];
+        Debug.Log("Current action: " + action.Description);
 
         SetZones(action);
 
@@ -180,20 +182,20 @@ public class Game
                 actions.Insert(actionIndex + 1 + i, newActions[i]);
             }
 
-            Tick();
+            Tick("dummy was calculated");
         }
         else if (action.Type == ActionType.PopTask)
         {
             floor.Add(players[currentPlayerIndex].Temple.Task);
             players[currentPlayerIndex].Temple.Task = null;
 
-            Tick();
+            Tick("task was popped");
         }
         else if (action.Type == ActionType.DrawWaiting)
         {
             players[currentPlayerIndex].DrawWaiting();
 
-            Tick();
+            Tick("draw waiting");
         }
     }
 
@@ -205,7 +207,7 @@ public class Game
         // reset actions
         actionIndex = -1;
         actions.Clear();
-        Tick();
+        Tick("turn was ended");
     }
 
     private void SetActions()

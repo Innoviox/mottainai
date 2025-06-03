@@ -70,21 +70,23 @@ public class GameObject : MonoBehaviour
 
     void BeginTurn()
     {
-        Tick();
+        Tick("begin turn");
     }
 
-    private void Tick()
+    private void Tick(string reason = "")
     {
+        Debug.Log("[gameobject] Tick: " + reason);
         ClearHighlights();
-        game.Tick();
+        game.Tick("gameobject ticked");
         Refresh();
         UpdateLog();
     }
 
     public void Update()
     {
-        if (clickAction.WasPerformedThisFrame())
+        if (clickAction.WasReleasedThisFrame())
         {
+            Debug.Log("[gameobject] Click action release");
             PerformRaycast();
         }
     }
@@ -105,7 +107,7 @@ public class GameObject : MonoBehaviour
                 {
                     int index = int.Parse(hitTransform.name.Split('_')[2]);
                     game.ChooseTask(index);
-                    Tick();
+                    Tick("clicked hand");
                 }
             }
             else if (game.currentAction.IsTask())
@@ -113,7 +115,7 @@ public class GameObject : MonoBehaviour
                 if (hitTransform.name.StartsWith("CardHighlight_Deck"))
                 {
                     game.Pray();
-                    Tick();
+                    Tick("clicked deck");
                 }
             }
 
@@ -145,7 +147,7 @@ public class GameObject : MonoBehaviour
     {
         foreach (Zone zone in zones)
         {
-            Debug.Log("Highlighting " + zone.ToString());
+            // Debug.Log("Highlighting " + zone.ToString());
             switch (zone.Type)
             {
                 case ZoneType.Hand:
@@ -158,7 +160,7 @@ public class GameObject : MonoBehaviour
                     HighlightDeck();
                     break;
                 default:
-                    Debug.LogWarning("Unhandled zone type: " + zone.Type);
+                    Debug.Log("Unhandled zone type: " + zone.Type);
                     break;
             }
         }
