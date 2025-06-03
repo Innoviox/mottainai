@@ -160,7 +160,7 @@ public class PlayerObject : MonoBehaviour
             Transform saleTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, temple);
             CardObject cardObject = saleTransform.GetComponent<CardObject>();
             cardObject.Card = player.Temple.Sales[i];
-            cardObject.transform.localPosition = new Vector3(i * 40, -40, 0);
+            cardObject.transform.localPosition = new Vector3(i * 9 + 13, 3, 0);
             cardObject.Refresh();
         }
 
@@ -173,5 +173,43 @@ public class PlayerObject : MonoBehaviour
             cardObject.transform.localRotation = Quaternion.Euler(0, 0, -90);
             cardObject.Refresh();
         }
+
+        for (int i = 0; i < player.Temple.Gallery.Count; i++)
+        {
+            Transform galleryTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, temple);
+            CardObject cardObject = galleryTransform.GetComponent<CardObject>();
+            cardObject.Card = player.Temple.Gallery[i];
+            cardObject.transform.localPosition = new Vector3(i * 40 - 60, -3, 0);
+            cardObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            cardObject.Refresh();
+        }
+
+        for (int i = 0; i < player.Temple.GiftShop.Count; i++)
+        {
+            Transform giftTransform = Instantiate(cardPrefab, new Vector3(0, 0, 0), Quaternion.identity, temple);
+            CardObject cardObject = giftTransform.GetComponent<CardObject>();
+            cardObject.Card = player.Temple.GiftShop[i];
+            cardObject.transform.localPosition = new Vector3(i * 40 + 60, -3, 0);
+            cardObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            cardObject.Refresh();
+        }
+    }
+
+    public void HighlightSide(int value)
+    {
+        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
+        highlightTransform.localPosition = new Vector3(value == 0 ? -50 : 50, 0, 0);
+        highlightTransform.name = "CardHighlight_Side_" + value;
+        highlights.Add(highlightTransform);
+    }
+
+    public void HighlightCraftBench(int value)
+    {
+        Transform craftBench = transform.Find("Temple/CraftBench");
+        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, craftBench);
+        highlightTransform.localPosition = new Vector3(0, value * -9 - 11, 0);
+        highlightTransform.transform.localRotation = Quaternion.Euler(0, 0, -90);
+        highlightTransform.name = "CardHighlight_CraftBench_" + value;
+        highlights.Add(highlightTransform);
     }
 }

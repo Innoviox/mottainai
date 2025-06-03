@@ -315,6 +315,10 @@ public class Game
                     zones.Add(new Zone(ZoneType.Hand, i));
                 }
                 break;
+            case ActionType.ChooseSide:
+                zones.Add(new Zone(ZoneType.Gallery, 0));
+                zones.Add(new Zone(ZoneType.GiftShop, 1));
+                break;
             default:
                 Debug.Log("Unhandled action type: " + action.Type);
                 break;
@@ -325,7 +329,6 @@ public class Game
     {
         List<Action> newActions = new List<Action>();
 
-        // todo handle LTask, RTask, CTask
         // todo handle works
 
         if (action.SecondaryType == ActionType.LTask || action.SecondaryType == ActionType.RTask || action.SecondaryType == ActionType.CTask)

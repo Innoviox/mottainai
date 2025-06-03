@@ -140,13 +140,13 @@ public class GameObject : MonoBehaviour
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.StartCraft(index);
             }
-            else if (game.currentAction.Type == ActionType.ChooseSide && hitTransform.name.startsWith("SideHighlight"))
+            else if (game.currentAction.Type == ActionType.ChooseSide && hitTransform.name.StartsWith("CardHighlight_Side_"))
             {
-                int index = int.Parse(hitTransform.name.Split('_')[1]);
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.EndCraft(game.currentAction.Value, index == 0);
                 Tick("clicked side highlight");
             }
-            else if (game.currentAction.Type == ActionType.Clerk && hitTransform.name.StartsWith("CardHighlight_Sales"))
+            else if (game.currentAction.Type == ActionType.Clerk && hitTransform.name.StartsWith("CardHighlight_CraftBench_"))
             {
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.Clerk(index);
@@ -191,6 +191,13 @@ public class GameObject : MonoBehaviour
                     break;
                 case ZoneType.Deck:
                     HighlightDeck();
+                    break;
+                case ZoneType.Gallery:
+                case ZoneType.GiftShop:
+                    playerObjects[game.CurrentPlayerIndex].HighlightSide(zone.Value);
+                    break;
+                case ZoneType.CraftBench:
+                    playerObjects[game.CurrentPlayerIndex].HighlightCraftBench(zone.Value);
                     break;
                 default:
                     Debug.Log("Unhandled zone type: " + zone.Type);
