@@ -196,4 +196,16 @@ public class Utils
                 throw new System.ArgumentException("Invalid action type");
         }
     }
+
+    public static Dictionary<Material, int> GetCoverageMap()
+    {
+        return new Dictionary<Material, int>
+        {
+            { Material.Paper, 0 },
+            { Material.Cloth, 0 },
+            { Material.Stone, 0 },
+            { Material.Clay, 0 },
+            { Material.Metal, 0 }
+        };
+    }
 }

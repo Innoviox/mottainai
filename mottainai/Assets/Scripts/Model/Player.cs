@@ -37,8 +37,58 @@ public class Player
 
     public int TaskCount(Material m)
     {
-        // todo
-        return 1;
+        // todo overcoverage
+        int actions = 1;
+
+        var coverageMap = Utils.GetCoverageMap();
+        foreach (Card c in Temple.Gallery)
+        {
+            coverageMap[c.Material] += c.Value;
+        }
+
+        foreach (Card c in Temple.Helpers)
+        {
+            if (coverageMap[c.Material] > 0)
+            {
+                actions += 2;
+                coverageMap[c.Material] -= 1;
+            }
+            else
+            {
+                actions += 1;
+            }
+        }
+
+        return actions;
+    }
+
+    public int CalculateScore()
+    {
+        // todo overcoverage
+        int score = 0;
+
+        foreach (Card c in Temple.Gallery)
+        {
+            score += c.Value;
+        }
+
+        var coverageMap = Utils.GetCoverageMap();
+        foreach (Card c in Temple.GiftShop)
+        {
+            coverageMap[c.Material] += c.Value;
+            score += c.Value;
+        }
+
+        foreach (Card c in Temple.Sales)
+        {
+            if (coverageMap[c.Material] > 0)
+            {
+                coverageMap[c.Material] -= 1;
+                score += c.Value;
+            }
+        }
+
+        return score;
     }
 
     public bool CanCraftFromBench(int index, Material m)

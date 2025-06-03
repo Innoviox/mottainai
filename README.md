@@ -2,11 +2,11 @@
 
 To MVP:
 
-- [ ] tailor action
-- [ ] helpers
-  - [ ] covered helpers
-- [ ] scoring
-  - [ ] display score on temple
+- [x] tailor action
+- [x] helpers
+  - [x] covered helpers
+- [x] scoring
+  - [x] display score on temple
 - [ ] text
 
 - [ ] game end

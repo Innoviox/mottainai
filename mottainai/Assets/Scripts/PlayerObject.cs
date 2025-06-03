@@ -64,14 +64,9 @@ public class PlayerObject : MonoBehaviour
             dummyTask.gameObject.SetActive(true);
         }
 
-        if (active)
-        {
-            transform.Find("Canvas/WaitingCount").GetComponent<TMPro.TextMeshProUGUI>().text = player.WaitingArea.Count.ToString();
-        }
-        else
-        {
-            transform.Find("Canvas/WaitingCount").GetComponent<TMPro.TextMeshProUGUI>().text = "";
-        }
+
+        transform.Find("Canvas/Score").GetComponent<TMPro.TextMeshProUGUI>().text = player.CalculateScore().ToString();
+        transform.Find("Canvas/WaitingCount").GetComponent<TMPro.TextMeshProUGUI>().text = player.WaitingArea.Count.ToString();
 
         DrawTemple(active);
 
