@@ -70,6 +70,9 @@ public enum ActionType
     ChooseSide,
     Work,
     Amulet,
+    Bowl,
+    Chopsticks,
+    Cloak,
 }
 
 public class Action

@@ -9,17 +9,17 @@ To MVP:
   - [x] display score on temple
 - [ ] text
   - [ ] Amulet
-   - [ ] Bangle
+   - [x] Bangle
    - [ ] Bell
-   - [ ] Bench
+   - [x] Bench
    - [ ] Bowl
-   - [ ] Brick
+   - [x] Brick
    - [ ] Chopsticks
    - [ ] Cloak
    - [ ] Coin
    - [ ] Crane
    - [ ] Cup
-   - [ ] Curtain
+   - [x] Curtain
    - [ ] Daidoro
    - [ ] Deck of Cards
    - [ ] Dice
@@ -69,5 +69,6 @@ For better UI:
 
 - [ ] settings menu
   - [ ] backorders & undercoverage
+    - [ ] Coin
 - [ ] fix card colors
 

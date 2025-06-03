@@ -35,20 +35,23 @@ public class Player
         WaitingArea = new List<Card>();
     }
 
-    public int TaskCount(Material m)
+    public int TaskCount(Material m, Player p)
     {
         // todo overcoverage
         int actions = 1;
 
         var coverageMap = Utils.GetCoverageMap();
-        foreach (Card c in Temple.Gallery)
+        if (!p.HasWork("Bangle"))
         {
-            coverageMap[c.Material] += c.Value;
+            foreach (Card c in Temple.Gallery)
+            {
+                coverageMap[c.Material] += c.Value;
+            }
         }
 
         foreach (Card c in Temple.Helpers)
         {
-            if (coverageMap[c.Material] > 0)
+            if (coverageMap[c.Material] > 0 || (c.Material == Material.Stone && HasWork("Bangle")))
             {
                 actions += 2;
                 coverageMap[c.Material] -= 1;
@@ -66,10 +69,15 @@ public class Player
     {
         // todo overcoverage
         int score = 0;
+        bool bench = HasWork("Bench");
 
         foreach (Card c in Temple.Gallery)
         {
             score += c.Value;
+            if (c.Material == Material.Stone && bench)
+            {
+                score += 2;
+            }
         }
 
         var coverageMap = Utils.GetCoverageMap();
@@ -77,6 +85,10 @@ public class Player
         {
             coverageMap[c.Material] += c.Value;
             score += c.Value;
+            if (c.Material == Material.Stone && bench)
+            {
+                score += 2;
+            }
         }
 
         foreach (Card c in Temple.Sales)
@@ -98,10 +110,22 @@ public class Player
         return card.Material == m && count + 1 >= card.Value;
     }
 
-    public bool CanCraftFromHand(int index)
+    public bool CanCraftFromHand(int index, Player[] players)
     {
         Card card = hand[index];
         int count = CountHandMaterial(card.Material);
+
+        if (HasWork("Brick"))
+        {
+            foreach (Player player in players)
+            {
+                if (player.Temple.Task != null && player.Temple.Task.Material == card.Material)
+                {
+                    count += 1;
+                }
+            }
+        }
+
         return count >= card.Value;
     }
 

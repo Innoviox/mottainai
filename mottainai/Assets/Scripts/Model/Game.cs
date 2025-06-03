@@ -184,15 +184,22 @@ public class Game
         }
         else if (action.Type == ActionType.PopTask)
         {
-            floor.Add(players[currentPlayerIndex].Temple.Task);
-            players[currentPlayerIndex].Temple.Task = null;
-
-            // Tick("task was popped");
-            NeedTick = true;
-            if (!players[currentPlayerIndex].HasPlayed)
+            if (players[currentPlayerIndex].HasWork("Chopsticks"))
             {
-                players[currentPlayerIndex].HasPlayed = true;
+                actions.Insert(actionIndex + 1, new Action(ActionType.Chopsticks, "Optionally activate chopsticks", ActionType.Work));
             }
+            else
+            {
+                floor.Add(players[currentPlayerIndex].Temple.Task);
+                players[currentPlayerIndex].Temple.Task = null;
+
+                // Tick("task was popped");
+                NeedTick = true;
+                if (!players[currentPlayerIndex].HasPlayed)
+                {
+                    players[currentPlayerIndex].HasPlayed = true;
+                }
+            }   
         }
         else if (action.Type == ActionType.DrawWaiting)
         {
@@ -271,7 +278,23 @@ public class Game
 
         if (action.Type == ActionType.Amulet)
         {
-            zones.Add(players[currentPlayerIndex].GetZone("Amulet"));
+            zones.Add(players[currentPlayerIndex].GetZone("Amulet", 0));
+        }
+
+        if (action.Type == ActionType.Clerk && players[currentPlayerIndex].HasWork("Bell"))
+        {
+            zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
+        }
+
+        if (action.Type == ActionType.Bowl)
+        {
+            zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
+            zones.Add(players[currentPlayerIndex].GetZone("Bowl", 0));
+        }
+
+        if (action.Type == ActionType.Chopsticks)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Chopsticks", 1));
         }
 
         switch (action.Type)
@@ -354,12 +377,28 @@ public class Game
             }
 
             Material m = players[playerN].Temple.Task.Material;
-            int total = players[currentPlayerIndex].TaskCount(m);
+            int total = players[currentPlayerIndex].TaskCount(m, players[playerN]);
             ActionType a = Utils.GetAction(m);
-            for (int i = 0; i < total; i++)
+
+            if (action.SecondaryType != ActionType.CTask)
             {
-                newActions.Add(new Action(a, $"Perform {a} task #{i + 1}", action.SecondaryType));
-            }
+                if (players[playerN].HasWork("Curtain") && (m == Material.Cloth || m == Material.Metal))
+                {
+                    if (players[currentPlayerIndex].CountHandMaterial(m) == 0)
+                    {
+                        return newActions;
+                    }
+                }
+            } 
+
+            for (int i = 0; i < total; i++)
+                {
+                    newActions.Add(new Action(a, $"Perform {a} task #{i + 1}", action.SecondaryType));
+                }
+        }
+        else if (action.Type == ActionType.InTheMorning)
+        {
+            newActions.Add(new Action(ActionType.Bowl, "Optionally perform bowl action", ActionType.Work));
         }
 
         return newActions;
@@ -461,7 +500,11 @@ public class Game
 
         if (players[currentPlayerIndex].HasWork("Amulet"))
         {
-            actions.Insert(actionIndex + 1, new Action(ActionType.Work, "Optionally activate amulet", ActionType.Amulet));
+            actions.Insert(actionIndex + 1, new Action(ActionType.Amulet, "Optionally activate amulet", ActionType.Work));
+        }
+        if (players[currentPlayerIndex].HasWork("Cloak"))
+        {
+            actions.Insert(actionIndex + 1, new Action(ActionType.Cloak, "Optionally activate cloak", ActionType.Work));
         }
     }
 

@@ -153,7 +153,7 @@ public class GameObject : MonoBehaviour
                 game.EndCraft(game.currentAction.Value, index == 0);
                 Tick("clicked side highlight");
             }
-            else if ((game.currentAction.Type == ActionType.Clerk || game.currentAction.SecondaryType == ActionType.Amulet) && hitTransform.name.StartsWith("CardHighlight_CraftBench_"))
+            else if ((game.currentAction.Type == ActionType.Clerk || game.currentAction.Type == ActionType.Amulet) && hitTransform.name.StartsWith("CardHighlight_CraftBench_"))
             {
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.Clerk(index);
