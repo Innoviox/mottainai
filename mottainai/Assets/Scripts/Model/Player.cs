@@ -93,10 +93,51 @@ public class Player
 
         foreach (Card c in Temple.Sales)
         {
-            if (coverageMap[c.Material] > 0)
+            if (coverageMap[c.Material] > 0 ||
+                (HasWork("Pillar") && c.Material == MostSoldType()) ||
+                (HasWork("Quilt") && (c.Material == Material.Paper || c.Material == Material.Cloth || c.Material == Material.Stone)))
             {
                 coverageMap[c.Material] -= 1;
                 score += c.Value;
+            }
+        }
+
+        if (HasWork("Haniwa"))
+        {
+            coverageMap = Utils.GetCoverageMap();
+            foreach (Card c in Temple.Helpers)
+            {
+                coverageMap[c.Material] += 1;
+            }
+
+            score += coverageMap.Values.Max() * 3;
+        }
+
+        if (HasWork("Teapot"))
+        {
+            coverageMap = Utils.GetCoverageMap();
+            foreach (Card c in Temple.CraftBench)
+            {
+                coverageMap[c.Material] += 1;
+            }
+
+            score += coverageMap.Values.Max() * 3;
+        }
+
+        if (HasWork("Scroll"))
+        {
+            score += 3;
+        }
+
+        if (HasWork("Tapestry"))
+        {
+            if (GetZone("Tapestry").Type == ZoneType.Gallery)
+            {
+                score += Temple.Gallery.Count;
+            }
+            else
+            {
+                score += Temple.GiftShop.Count;
             }
         }
 
@@ -124,6 +165,11 @@ public class Player
                     count += 1;
                 }
             }
+        }
+
+        if (HasWork("Straw") && (card.Material == Material.Cloth || card.Materal == Material.Clay))
+        {
+            count += 1;
         }
 
         return count >= card.Value;

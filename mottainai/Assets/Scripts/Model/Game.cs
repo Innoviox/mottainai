@@ -264,14 +264,17 @@ public class Game
     {
         zones.Clear();
 
-        if (action.Type == ActionType.Clerk || action.Type == ActionType.Tailor || action.Type == ActionType.Monk || action.Type == ActionType.Potter || action.Type == ActionType.Smith)
+        if (action.IsTask())
         {
-            zones.Add(new Zone(ZoneType.Deck, 0));
-            for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
-            {
-                if (players[currentPlayerIndex].CanCraftFromBench(i, Utils.GetMaterialFromAction(action.Type)))
+            int playerN = GetPlayerN(action);
+            if (playerN < 0 || (playerN == currentPlayerIndex || !players[playerN].HasWork("Mask"))) {
+                zones.Add(new Zone(ZoneType.Deck, 0));
+                for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
-                    zones.Add(new Zone(ZoneType.Hand, i));
+                    if (players[currentPlayerIndex].CanCraftFromBench(i, Utils.GetMaterialFromAction(action.Type)))
+                    {
+                        zones.Add(new Zone(ZoneType.Hand, i));
+                    }
                 }
             }
         }
@@ -354,6 +357,23 @@ public class Game
                 break;
         }
     }
+    
+    private int GetPlayerN(Action action)
+    {
+        if (action.SecondaryType == ActionType.LTask)
+        {
+            return (currentPlayerIndex + 1) % players.Length;
+        }
+        else if (action.SecondaryType == ActionType.RTask)
+        {
+            return (currentPlayerIndex + 2) % players.Length;
+        }
+        else if (action.SecondaryType == ActionType.CTask)
+        {
+            return currentPlayerIndex;
+        }
+        return -1; // Invalid action type
+    }
 
     private List<Action> Calculate(Action action)
     {
@@ -363,9 +383,7 @@ public class Game
 
         if (action.SecondaryType == ActionType.LTask || action.SecondaryType == ActionType.RTask || action.SecondaryType == ActionType.CTask)
         {
-            int playerN = action.SecondaryType == ActionType.LTask ? (currentPlayerIndex + 1) % players.Length :
-                            action.SecondaryType == ActionType.RTask ? (currentPlayerIndex + 2) % players.Length :
-                            currentPlayerIndex;
+            int playerN = GetPlayerN(action);
 
             if (players[playerN].Temple.Task == null || !players[playerN].HasPlayed)
             {
@@ -389,12 +407,20 @@ public class Game
                         return newActions;
                     }
                 }
-            } 
+
+                if (players[playerN].HasWork("Tower") && (m == Material.Paper || m == Material.Stone || m == Material.Clay))
+                {
+                    if (players[currentPlayerIndex].CountHandMaterial(m) == 0)
+                    {
+                        return newActions;
+                    }
+                }
+            }
 
             for (int i = 0; i < total; i++)
-                {
-                    newActions.Add(new Action(a, $"Perform {a} task #{i + 1}", action.SecondaryType));
-                }
+            {
+                newActions.Add(new Action(a, $"Perform {a} task #{i + 1}", action.SecondaryType));
+            }
         }
         else if (action.Type == ActionType.InTheMorning)
         {

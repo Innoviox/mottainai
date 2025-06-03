@@ -16,7 +16,7 @@ To MVP:
    - [x] Brick
    - [ ] Chopsticks
    - [ ] Cloak
-   - [ ] Coin
+   - [x] Coin
    - [ ] Crane
    - [ ] Cup
    - [x] Curtain
@@ -33,32 +33,32 @@ To MVP:
    - [ ] Go Set
    - [ ] Gong
    - [ ] Handkerchief
-   - [ ] Haniwa
+   - [x] Haniwa
    - [ ] Jar
    - [ ] Kite
    - [ ] Lampshade
-   - [ ] Mask
-   - [ ] Pillar
+   - [x] Mask
+   - [x] Pillar
    - [ ] Pin
    - [ ] Pinwheel
    - [ ] Plane
    - [ ] Poem
    - [ ] Puppet
-   - [ ] Quilt
+   - [x] Quilt
    - [ ] Ring
    - [ ] Robe
-   - [ ] Scroll
+   - [x] Scroll
    - [ ] Shuriken
    - [ ] Sketch
    - [ ] Socks
    - [ ] Statue
    - [ ] Stool
-   - [ ] Straw
+   - [x] Straw
    - [ ] Sword
    - [ ] Tablet
-   - [ ] Tapestry
-   - [ ] Teapot
-   - [ ] Tower
+   - [x] Tapestry
+   - [x] Teapot
+   - [x] Tower
    - [ ] Turtle
    - [ ] Umbrella
    - [ ] Vase
@@ -70,5 +70,6 @@ For better UI:
 - [ ] settings menu
   - [ ] backorders & undercoverage
     - [ ] Coin
+    - [ ] Quilt
 - [ ] fix card colors
 
