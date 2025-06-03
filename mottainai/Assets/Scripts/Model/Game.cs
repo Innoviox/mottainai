@@ -269,6 +269,11 @@ public class Game
             }
         }
 
+        if (action.Type == ActionType.Amulet)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Amulet"));
+        }
+
         switch (action.Type)
         {
             case ActionType.Dummy:
@@ -282,6 +287,7 @@ public class Game
                 }
                 break;
             case ActionType.Clerk:
+            case ActionType.Amulet:
                 for (int i = 0; i < players[currentPlayerIndex].Temple.CraftBench.Count; i++)
                 {
                     zones.Add(new Zone(ZoneType.CraftBench, i));
@@ -452,6 +458,11 @@ public class Game
             players[currentPlayerIndex].Temple.GiftShop.Add(card);
         }
         players[currentPlayerIndex].Hand.RemoveAt(index);
+
+        if (players[currentPlayerIndex].HasWork("Amulet"))
+        {
+            actions.Insert(actionIndex + 1, new Action(ActionType.Work, "Optionally activate amulet", ActionType.Amulet));
+        }
     }
 
     public void Clerk(int index)

@@ -68,6 +68,8 @@ public enum ActionType
     HandSupport,
     BenchSupport,
     ChooseSide,
+    Work,
+    Amulet,
 }
 
 public class Action
