@@ -163,7 +163,7 @@ public class Game
 
         if (actionIndex >= actions.Count - 1)
         {
-            // EndTurn(); // todo
+            EndTurn();
             return;
         }
 
@@ -179,6 +179,7 @@ public class Game
             {
                 actions.Insert(actionIndex + 1 + i, newActions[i]);
             }
+
             Tick();
         }
         else if (action.Type == ActionType.PopTask)
@@ -188,6 +189,23 @@ public class Game
 
             Tick();
         }
+        else if (action.Type == ActionType.DrawWaiting)
+        {
+            players[currentPlayerIndex].DrawWaiting();
+
+            Tick();
+        }
+    }
+
+    public void EndTurn()
+    {
+        // move to next player
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.Length;
+
+        // reset actions
+        actionIndex = -1;
+        actions.Clear();
+        Tick();
     }
 
     private void SetActions()
@@ -317,8 +335,8 @@ public class Game
             ActionType a = Utils.GetAction(m);
             for (int i = 0; i < total; i++)
             {
-                newActions.Add(new Action(a, $"Perform {a} task #{i+1}", action.SecondaryType));
-            }   
+                newActions.Add(new Action(a, $"Perform {a} task #{i + 1}", action.SecondaryType));
+            }
         }
 
         return newActions;
@@ -364,5 +382,10 @@ public class Game
         Card chosenCard = players[currentPlayerIndex].Hand[index];
         players[currentPlayerIndex].Hand.RemoveAt(index);
         players[currentPlayerIndex].Temple.Task = chosenCard;
+    }
+
+    public void Pray()
+    {
+        players[currentPlayerIndex].WaitingArea.Add(DealCard());
     }
 }

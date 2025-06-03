@@ -83,6 +83,15 @@ public class Action
     {
         return $"{Type} - {Description} (Secondary: {SecondaryType})";
     }
+
+    public bool IsTask()
+    {
+        return Type == ActionType.Clerk ||
+               Type == ActionType.Tailor ||
+               Type == ActionType.Monk ||
+               Type == ActionType.Potter ||
+               Type == ActionType.Smith;
+    }
 }
 
 public class Utils

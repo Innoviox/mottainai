@@ -56,6 +56,15 @@ public class PlayerObject : MonoBehaviour
             dummyTask.gameObject.SetActive(true);
         }
 
+        if (active)
+        {
+            transform.Find("Canvas/WaitingCount").GetComponent<TMPro.TextMeshProUGUI>().text = player.WaitingArea.Count.ToString();
+        }
+        else
+        {
+            transform.Find("Canvas/WaitingCount").GetComponent<TMPro.TextMeshProUGUI>().text = "";
+        }
+
         ClearHighlights();
     }
 
@@ -84,7 +93,7 @@ public class PlayerObject : MonoBehaviour
     {
         if (index == currentIndex)
         {
-            transform.position = new Vector3(0, -40, 0);
+            transform.position = new Vector3(0, 0, 0);
             transform.rotation = Quaternion.identity;
         }
         else if (index == (currentIndex + 1) % 3)

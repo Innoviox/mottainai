@@ -17,6 +17,7 @@ public class GameObject : MonoBehaviour
     private PlayerObject[] playerObjects;
     private InputAction clickAction;
     private InputAction pointAction;
+    private List<Transform> highlights = new List<Transform>();
 
     private void Awake()
     {
@@ -69,16 +70,12 @@ public class GameObject : MonoBehaviour
 
     void BeginTurn()
     {
-        for (int i = 0; i < playerObjects.Length; i++)
-        {
-            playerObjects[i].Reposition(i, game.CurrentPlayerIndex);
-        }
-
         Tick();
     }
 
     private void Tick()
     {
+        ClearHighlights();
         game.Tick();
         Refresh();
         UpdateLog();
@@ -104,13 +101,22 @@ public class GameObject : MonoBehaviour
         {
             if (game.currentAction.Type == ActionType.ChooseTask)
             {
-                if (hitTransform.name.StartsWith("CardHighlight"))
+                if (hitTransform.name.StartsWith("CardHighlight_Hand"))
                 {
                     int index = int.Parse(hitTransform.name.Split('_')[2]);
                     game.ChooseTask(index);
                     Tick();
                 }
             }
+            else if (game.currentAction.IsTask())
+            {
+                if (hitTransform.name.StartsWith("CardHighlight_Deck"))
+                {
+                    game.Pray();
+                    Tick();
+                }
+            }
+
         }
     }
 
@@ -123,6 +129,10 @@ public class GameObject : MonoBehaviour
 
     private void Refresh()
     {
+        for (int i = 0; i < playerObjects.Length; i++)
+        {
+            playerObjects[i].Reposition(i, game.CurrentPlayerIndex);
+        }
         DrawFloor();
         for (int i = 0; i < playerObjects.Length; i++)
         {
@@ -153,13 +163,14 @@ public class GameObject : MonoBehaviour
             }
         }
     }
-    
+
     private void HighlightFloor(int index)
     {
         Transform floor = transform.Find("Floor");
         Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, floor);
         highlightTransform.localPosition = new Vector3(index * 40, 0, 0);
         highlightTransform.name = "CardHighlight_Floor_" + index;
+        highlights.Add(highlightTransform);
     }
 
     private void HighlightDeck()
@@ -168,5 +179,15 @@ public class GameObject : MonoBehaviour
         Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, deckCount);
         highlightTransform.localPosition = new Vector3(0, 0, 0);
         highlightTransform.name = "CardHighlight_Deck";
+        highlights.Add(highlightTransform);
+    }
+
+    private void ClearHighlights()
+    {
+        foreach (Transform highlight in highlights)
+        {
+            Destroy(highlight.gameObject);
+        }
+        highlights.Clear();
     }
 }

@@ -25,11 +25,14 @@ public class Player
         set { hasPlayed = value; }
     }
 
+    public List<Card> WaitingArea { get; set; } = new List<Card>();
+
     public Player()
     {
         temple = new Temple();
         hand = new List<Card>();
         hasPlayed = false;
+        WaitingArea = new List<Card>();
     }
 
     public int TaskCount(Material m)
@@ -63,5 +66,11 @@ public class Player
             }
         }
         return count;
+    }
+
+    public void DrawWaiting()
+    {
+        Hand.AddRange(WaitingArea);
+        WaitingArea.Clear();
     }
 }
