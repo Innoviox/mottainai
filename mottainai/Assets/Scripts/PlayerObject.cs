@@ -84,7 +84,7 @@ public class PlayerObject : MonoBehaviour
     {
         if (index == currentIndex)
         {
-            transform.position = new Vector3(0, -50, 0);
+            transform.position = new Vector3(0, -40, 0);
             transform.rotation = Quaternion.identity;
         }
         else if (index == (currentIndex + 1) % 3)
@@ -104,7 +104,7 @@ public class PlayerObject : MonoBehaviour
         Transform hand = transform.Find("Hand");
         Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, hand);
         highlightTransform.localPosition = new Vector3(index * 40, 0, 0);
-        highlightTransform.name = "CardHighlight_" + index;
+        highlightTransform.name = "CardHighlight_Hand_" + index;
         highlights.Add(highlightTransform);
     }
 

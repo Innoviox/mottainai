@@ -7,6 +7,7 @@ public class GameObject : MonoBehaviour
 {
     public Transform playerPrefab;
     public Transform cardPrefab;
+    public Transform cardHighlightPrefab;
     public string cardsPath;
     public Sprite[] backs;
     public Sprite[] cardSprites;
@@ -76,14 +77,14 @@ public class GameObject : MonoBehaviour
         Tick();
     }
 
-    void Tick()
+    private void Tick()
     {
         game.Tick();
         Refresh();
         UpdateLog();
     }
 
-    void Update()
+    public void Update()
     {
         if (clickAction.WasPerformedThisFrame())
         {
@@ -91,7 +92,7 @@ public class GameObject : MonoBehaviour
         }
     }
 
-    void PerformRaycast()
+    private void PerformRaycast()
     {
         Vector2 pointerPosition = pointAction.ReadValue<Vector2>();
 
@@ -101,10 +102,11 @@ public class GameObject : MonoBehaviour
         Transform hitTransform = rayHit.collider.transform;
         if (game.currentAction != null)
         {
-            if (game.currentAction.Type == ActionType.ChooseTask) {
+            if (game.currentAction.Type == ActionType.ChooseTask)
+            {
                 if (hitTransform.name.StartsWith("CardHighlight"))
                 {
-                    int index = int.Parse(hitTransform.name.Split('_')[1]);
+                    int index = int.Parse(hitTransform.name.Split('_')[2]);
                     game.ChooseTask(index);
                     Tick();
                 }
@@ -113,13 +115,13 @@ public class GameObject : MonoBehaviour
     }
 
 
-    void UpdateLog()
+    private void UpdateLog()
     {
         Transform log = transform.Find("Canvas/Scroll View/Viewport/Log");
         log.GetComponent<TMPro.TextMeshProUGUI>().text = game.Log;
     }
 
-    void Refresh()
+    private void Refresh()
     {
         DrawFloor();
         for (int i = 0; i < playerObjects.Length; i++)
@@ -129,7 +131,7 @@ public class GameObject : MonoBehaviour
         HighlightZones(game.Zones);
     }
 
-    void HighlightZones(List<Zone> zones)
+    private void HighlightZones(List<Zone> zones)
     {
         foreach (Zone zone in zones)
         {
@@ -139,10 +141,32 @@ public class GameObject : MonoBehaviour
                 case ZoneType.Hand:
                     playerObjects[game.CurrentPlayerIndex].HighlightHand(zone.Value);
                     break;
+                case ZoneType.Floor:
+                    HighlightFloor(zone.Value);
+                    break;
+                case ZoneType.Deck:
+                    HighlightDeck();
+                    break;
                 default:
                     Debug.LogWarning("Unhandled zone type: " + zone.Type);
                     break;
             }
         }
+    }
+    
+    private void HighlightFloor(int index)
+    {
+        Transform floor = transform.Find("Floor");
+        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, floor);
+        highlightTransform.localPosition = new Vector3(index * 40, 0, 0);
+        highlightTransform.name = "CardHighlight_Floor_" + index;
+    }
+
+    private void HighlightDeck()
+    {
+        Transform deckCount = transform.Find("Canvas/DeckCount");
+        Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, deckCount);
+        highlightTransform.localPosition = new Vector3(0, 0, 0);
+        highlightTransform.name = "CardHighlight_Deck";
     }
 }

@@ -38,11 +38,11 @@ public class Player
         return 1;
     }
 
-    public bool CanCraftFromBench(int index)
+    public bool CanCraftFromBench(int index, Material m)
     {
         Card card = hand[index];
         int count = temple.CountBenchMaterial(card.Material);
-        return count + 1 >= card.Value;
+        return card.Material == m && count + 1 >= card.Value;
     }
 
     public bool CanCraftFromHand(int index)

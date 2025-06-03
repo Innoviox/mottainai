@@ -162,4 +162,23 @@ public class Utils
                 throw new System.ArgumentException("Invalid material type");
         }
     }
+
+    public static Material GetMaterialFromAction(ActionType actionType)
+    {
+        switch (actionType)
+        {
+            case ActionType.Clerk:
+                return Material.Paper;
+            case ActionType.Tailor:
+                return Material.Cloth;
+            case ActionType.Monk:
+                return Material.Stone;
+            case ActionType.Potter:
+                return Material.Clay;
+            case ActionType.Smith:
+                return Material.Metal;
+            default:
+                throw new System.ArgumentException("Invalid action type");
+        }
+    }
 }

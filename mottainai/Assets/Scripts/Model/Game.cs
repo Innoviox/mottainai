@@ -237,7 +237,7 @@ public class Game
             zones.Add(new Zone(ZoneType.Deck, 0));
             for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
             {
-                if (players[currentPlayerIndex].CanCraftFromBench(i))
+                if (players[currentPlayerIndex].CanCraftFromBench(i, Utils.GetMaterialFromAction(action.Type)))
                 {
                     zones.Add(new Zone(ZoneType.Hand, i));
                 }
