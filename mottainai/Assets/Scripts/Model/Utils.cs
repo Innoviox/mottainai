@@ -7,7 +7,8 @@ public enum Material
     Cloth,
     Stone,
     Clay,
-    Metal
+    Metal,
+    None,
 }
 
 public enum ZoneType
@@ -212,5 +213,18 @@ public class Utils
             { Material.Clay, 0 },
             { Material.Metal, 0 }
         };
+    }
+
+    public static int MaxValue(Dictionary<Material, int> map)
+    {
+        int max = 0;
+        foreach (var value in map.Values)
+        {
+            if (value > max)
+            {
+                max = value;
+            }
+        }
+        return max;
     }
 }

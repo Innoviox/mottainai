@@ -36,7 +36,7 @@ To MVP:
    - [x] Haniwa
    - [ ] Jar
    - [ ] Kite
-   - [ ] Lampshade
+   - [x] Lampshade
    - [x] Mask
    - [x] Pillar
    - [ ] Pin
@@ -70,6 +70,7 @@ For better UI:
 - [ ] settings menu
   - [ ] backorders & undercoverage
     - [ ] Coin
+    - [ ] Lampshade
     - [ ] Quilt
 - [ ] fix card colors
 

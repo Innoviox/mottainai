@@ -110,7 +110,7 @@ public class Player
                 coverageMap[c.Material] += 1;
             }
 
-            score += coverageMap.Values.Max() * 3;
+            score += 3 * Utils.MaxValue(coverageMap);
         }
 
         if (HasWork("Teapot"))
@@ -121,7 +121,7 @@ public class Player
                 coverageMap[c.Material] += 1;
             }
 
-            score += coverageMap.Values.Max() * 3;
+            score += 3 * Utils.MaxValue(coverageMap);
         }
 
         if (HasWork("Scroll"))
@@ -167,7 +167,7 @@ public class Player
             }
         }
 
-        if (HasWork("Straw") && (card.Material == Material.Cloth || card.Materal == Material.Clay))
+        if (HasWork("Straw") && (card.Material == Material.Cloth || card.Material == Material.Clay))
         {
             count += 1;
         }
@@ -192,5 +192,68 @@ public class Player
     {
         Hand.AddRange(WaitingArea);
         WaitingArea.Clear();
+    }
+
+    public bool HasWork(string work)
+    {
+        foreach (Card card in Temple.GiftShop)
+        {
+            if (card.Name == work)
+            {
+                return true;
+            }
+        }
+
+        foreach (Card card in Temple.Gallery)
+        {
+            if (card.Name == work)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Material MostSoldType()
+    {
+        var coverageMap = Utils.GetCoverageMap();
+        foreach (Card c in Temple.Sales)
+        {
+            coverageMap[c.Material] += 1;
+        }
+
+        int maxCount = 0;
+        Material mostSoldMaterial = Material.None;
+
+        foreach (var kvp in coverageMap)
+        {
+            if (kvp.Value > maxCount)
+            {
+                maxCount = kvp.Value;
+                mostSoldMaterial = kvp.Key;
+            }
+        }
+
+        return mostSoldMaterial;
+    }
+
+    public Zone GetZone(string work)
+    {
+        for (int i = 0; i < Temple.Gallery.Count; i++)
+        {
+            if (Temple.Gallery[i].Name == work)
+            {
+                return new Zone(ZoneType.Gallery, i);
+            }
+        }
+        for (int i = 0; i < Temple.GiftShop.Count; i++)
+        {
+            if (Temple.GiftShop[i].Name == work)
+            {
+                return new Zone(ZoneType.GiftShop, i);
+            }
+        }
+
+        return null;
     }
 }

@@ -211,8 +211,10 @@ public class GameObject : MonoBehaviour
                     HighlightDeck();
                     break;
                 case ZoneType.Gallery:
+                    playerObjects[game.CurrentPlayerIndex].HighlightSide(true, zone.Value);
+                    break;
                 case ZoneType.GiftShop:
-                    playerObjects[game.CurrentPlayerIndex].HighlightSide(zone.Value);
+                    playerObjects[game.CurrentPlayerIndex].HighlightSide(false, zone.Value);
                     break;
                 case ZoneType.CraftBench:
                     playerObjects[game.CurrentPlayerIndex].HighlightCraftBench(zone.Value);

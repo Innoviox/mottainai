@@ -191,10 +191,10 @@ public class PlayerObject : MonoBehaviour
         }
     }
 
-    public void HighlightSide(int value)
+    public void HighlightSide(bool side, int value)
     {
         Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
-        highlightTransform.localPosition = new Vector3(value == 0 ? -50 : 50, 0, 0);
+        highlightTransform.localPosition = new Vector3((side ? -1 : 1) * (50 + 40 * value), 0, 0);
         highlightTransform.name = "CardHighlight_Side_" + value;
         highlights.Add(highlightTransform);
     }

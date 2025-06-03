@@ -281,24 +281,24 @@ public class Game
 
         if (action.Type == ActionType.Amulet)
         {
-            zones.Add(players[currentPlayerIndex].GetZone("Amulet", 0));
+            zones.Add(players[currentPlayerIndex].GetZone("Amulet"));
         }
 
-        if (action.Type == ActionType.Clerk && players[currentPlayerIndex].HasWork("Bell"))
-        {
-            zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
-        }
+        // if (action.Type == ActionType.Clerk && players[currentPlayerIndex].HasWork("Bell"))
+        // {
+        //     zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
+        // }
 
-        if (action.Type == ActionType.Bowl)
-        {
-            zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
-            zones.Add(players[currentPlayerIndex].GetZone("Bowl", 0));
-        }
+        // if (action.Type == ActionType.Bowl)
+        // {
+        //     zones.Add(new Zone(ZoneType.Deck, 1)); // todo read zonetype 1
+        //     zones.Add(players[currentPlayerIndex].GetZone("Bowl"));
+        // }
 
-        if (action.Type == ActionType.Chopsticks)
-        {
-            zones.Add(players[currentPlayerIndex].GetZone("Chopsticks", 1));
-        }
+        // if (action.Type == ActionType.Chopsticks)
+        // {
+        //     zones.Add(players[currentPlayerIndex].GetZone("Chopsticks"));
+        // }
 
         switch (action.Type)
         {
@@ -336,7 +336,7 @@ public class Game
             case ActionType.Smith:
                 for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
-                    if (players[currentPlayerIndex].CanCraftFromHand(i))
+                    if (players[currentPlayerIndex].CanCraftFromHand(i, players))
                     {
                         zones.Add(new Zone(ZoneType.Hand, i));
                     }
@@ -350,7 +350,7 @@ public class Game
                 break;
             case ActionType.ChooseSide:
                 zones.Add(new Zone(ZoneType.Gallery, 0));
-                zones.Add(new Zone(ZoneType.GiftShop, 1));
+                zones.Add(new Zone(ZoneType.GiftShop, 0));
                 break;
             default:
                 Debug.Log("Unhandled action type: " + action.Type);
