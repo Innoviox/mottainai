@@ -245,11 +245,11 @@ public class PlayerObject : MonoBehaviour
         highlights.Add(highlightTransform);
     }
 
-    public void HighlightTask()
+    public void HighlightTask(int playerIndex)
     {
         Transform highlightTransform = Instantiate(cardHighlightPrefab, new Vector3(0, 0, 0), Quaternion.identity, transform);
         highlightTransform.localPosition = new Vector3(0, 15, 0);
-        highlightTransform.name = "CardHighlight_Task_";
+        highlightTransform.name = "CardHighlight_Task_" + playerIndex;
         highlights.Add(highlightTransform);
     }
 }

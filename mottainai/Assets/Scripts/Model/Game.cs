@@ -268,7 +268,14 @@ public class Game
         // perform "in the morning" effects (dummy for now)
         actions.Add(new Action(ActionType.Dummy, "Perform morning effects"));
         // choose new task
-        actions.Add(new Action(ActionType.ChooseTask, "Choose a new task"));
+        if (players[currentPlayerIndex].HasWork("Doll"))
+        {
+            actions.Add(new Action(ActionType.Doll, "Choose a new task (with Doll)", ActionType.Work));
+        }
+        else
+        {
+            actions.Add(new Action(ActionType.ChooseTask, "Choose a new task"));
+        }
         // dummy noon task
         actions.Add(new Action(ActionType.Dummy, "Noon begins"));
         // "calculate left task"
@@ -342,6 +349,12 @@ public class Game
             zones.Add(players[currentPlayerIndex].GetZone("Daidoro", new List<Button> { Button.Yes, Button.No }));
         }
 
+        if (action.Type == ActionType.Doll)
+        {
+            zones.Add(new Zone(ZoneType.LTask, 1));
+            zones.Add(new Zone(ZoneType.RTask, 1));
+        }
+
         if (action.Type == ActionType.EndCloak)
         {
             for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
@@ -365,6 +378,7 @@ public class Game
             case ActionType.DrawWaiting:
                 break;
             case ActionType.ChooseTask:
+            case ActionType.Doll:
                 for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
                     zones.Add(new Zone(ZoneType.Hand, i));
@@ -473,6 +487,10 @@ public class Game
                         return newActions;
                     }
                 }
+            }
+            else if (action.SecondaryType == ActionType.CTask && action.Value == 1)
+            {
+                total++;
             }
 
             for (int i = 0; i < total; i++)
@@ -706,5 +724,20 @@ public class Game
     public void DeckOfCards()
     {
         players[currentPlayerIndex].WaitingArea.Add(DealCard());
+    }
+
+    public void Doll(int playerIndex)
+    {
+        players[currentPlayerIndex].Temple.Task = players[playerIndex].Temple.Task;
+        players[playerIndex].Temple.Task = null;
+
+        for (int i = 0; i < Actions.count; i++)
+        {
+            if (actions[i].SecondaryType == ActionType.CTask)
+            {
+                actions[i].Value = 1; // Set the value to 1 to indicate that the task was taken
+                break;
+            }
+        }
     }
 }

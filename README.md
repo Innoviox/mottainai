@@ -21,9 +21,9 @@ To MVP:
    - [ ] Cup
    - [x] Curtain
    - [x] Daidoro
-   - [ ] Deck of Cards
+   - [x] Deck of Cards
    - [ ] Dice
-   - [ ] Doll
+   - [x] Doll
    - [ ] Fan
    - [ ] Figurine
    - [ ] Flag

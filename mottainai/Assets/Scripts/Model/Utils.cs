@@ -95,8 +95,11 @@ public enum ActionType
     EndCloak,
     DeckOfCards,
     Daidoro,
+    Doll,
 }
 
+
+// todo clean: Dummy/Ctask/1 = doll
 public class Action
 {
     public ActionType Type { get; private set; }

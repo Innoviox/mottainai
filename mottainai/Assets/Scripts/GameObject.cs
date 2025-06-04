@@ -114,7 +114,7 @@ public class GameObject : MonoBehaviour
         if (game.currentAction != null)
         {
             Debug.Log("[gameobject] Raycast hit: " + hitTransform.name + " for action: " + game.currentAction.Type);
-            if (game.currentAction.Type == ActionType.ChooseTask && hitTransform.name.StartsWith("CardHighlight_Hand"))
+            if ((game.currentAction.Type == ActionType.ChooseTask || game.currentAction.Type == ActionType.Doll) && hitTransform.name.StartsWith("CardHighlight_Hand"))
             {
                 int index = int.Parse(hitTransform.name.Split('_')[2]);
                 game.ChooseTask(index);
@@ -170,6 +170,13 @@ public class GameObject : MonoBehaviour
                 game.Tailor();
                 Tick(reason: "clicked tailor task");
             }
+            else if (game.currentAction.Type == ActionType.Doll && hitTransform.name.StartsWith("CardHighlight_Task"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[2]);
+                Debug.Log("[gameobject] Clicked task highlight: " + index);
+                game.Doll(index);
+                Tick("clicked task highlight for doll");
+            }
             else if (hitTransform.name.StartsWith("Button_No"))
             {
                 Debug.Log("[gameobject] Clicked No button");
@@ -212,16 +219,15 @@ public class GameObject : MonoBehaviour
                     game.DeckOfCards();
                     Tick("clicked deck of cards");
                 }
-            }
-            else if (hitTransform.name.StartsWith("Button_Return"))
-            {
-                string item = hitTransform.name.Split("_")[2];
-                if (game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop)
+                else if (hitTransform.name.StartsWith("Button_Return"))
                 {
-                    game.StartCloak();
+                    string item = hitTransform.name.Split("_")[2];
+                    if (game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop)
+                    {
+                        game.StartCloak();
+                    }
                 }
             }
-        }
     }
 
 
@@ -274,13 +280,13 @@ public class GameObject : MonoBehaviour
                     playerObjects[game.CurrentPlayerIndex].HighlightTailorReturn(zone.Value);
                     break;
                 case ZoneType.LTask:
-                    playerObjects[(game.CurrentPlayerIndex + 1) % 3].HighlightTask();
+                    playerObjects[(game.CurrentPlayerIndex + 1) % 3].HighlightTask((game.CurrentPlayerIndex + 1) % 3);
                     break;
                 case ZoneType.RTask:
-                    playerObjects[(game.CurrentPlayerIndex + 2) % 3].HighlightTask();
+                    playerObjects[(game.CurrentPlayerIndex + 2) % 3].HighlightTask((game.CurrentPlayerIndex + 2) % 3);
                     break;
                 case ZoneType.CTask:
-                    playerObjects[game.CurrentPlayerIndex].HighlightTask();
+                    playerObjects[game.CurrentPlayerIndex].HighlightTask(game.CurrentPlayerIndex);
                     break;
                 default:
                     Debug.Log("Unhandled zone type: " + zone.Type);
