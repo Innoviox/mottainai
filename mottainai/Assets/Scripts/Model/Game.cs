@@ -381,6 +381,16 @@ public class Game
             zones.Add(players[currentPlayerIndex].GetZone("Pinwheel", new List<Button> { Button.No }));
         }
 
+        if (action.Type == ActionType.Pin)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Pin", new List<Button> { Button.Yes, Button.No }));
+        }
+
+        if (action.Type == ActionType.Stool)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Stool", new List<Button> { Button.Yes, Button.No }));
+        }
+
         switch (action.Type)
         {
             case ActionType.Dummy:
@@ -520,6 +530,11 @@ public class Game
             {
                 newActions.Add(new Action(ActionType.Daidoro, "Optionally perform daidoro action", ActionType.Work));
             }
+
+            if (players[currentPlayerIndex].HasWork("Pin"))
+            {
+                newActions.Add(new Action(ActionType.Pin, "Optionally perform pin action", ActionType.Work));
+            }
         }
         else if (action.Type == ActionType.AtNight)
         {
@@ -580,7 +595,7 @@ public class Game
 
         if (players[currentPlayerIndex].HasWork("Gong"))
         {
-            actions.Insert(actionsIndex + 1, new Action(ActionType.Gong, "Optionally activate gong", ActionType.Work));
+            actions.Insert(actionIndex + 1, new Action(ActionType.Gong, "Optionally activate gong", ActionType.Work));
         }
     }
 
@@ -647,7 +662,17 @@ public class Game
 
         if (card.Material == Material.Paper && currentAction.SecondaryType == ActionType.Smith && players[currentPlayerIndex].HasWork("Deck of Cards"))
         {
-            actions.Insert(actionIndex + 1, new Action(ActionType.DeckOfCards, "Optionally activate deck of cards", ActionType.Dummy));
+            actions.Insert(actionIndex + 1, new Action(ActionType.DeckOfCards, "Optionally activate deck of cards", ActionType.Work));
+        }
+
+        // if (card.Material == Material.Paper && players[currentPlayerIndex].HasWork("Poem"))
+        // {
+        //     actions.Insert(actionIndex + 1, new Action(ActionType.Poem, "Optionally activate poem", ActionType.Work));
+        // }
+
+        if (players[currentPlayerIndex].HasWork("Stool") && (card.Material == Material.Stone || card.Material == Material.Clay || card.Material == Material.Metal))
+        {
+            actions.Insert(actionIndex + 1, new Action(ActionType.Stool, "Optionally activate stool", ActionType.Work));
         }
     }
 
@@ -754,7 +779,7 @@ public class Game
         players[currentPlayerIndex].Temple.Task = players[playerIndex].Temple.Task;
         players[playerIndex].Temple.Task = null;
 
-        for (int i = 0; i < Actions.count; i++)
+        for (int i = 0; i < Actions.Count; i++)
         {
             if (actions[i].SecondaryType == ActionType.CTask)
             {
@@ -783,6 +808,16 @@ public class Game
         Card pinwheelCard = players[currentPlayerIndex].Hand[index];
         players[currentPlayerIndex].Hand.RemoveAt(index);
         deck.Add(pinwheelCard);
+        players[currentPlayerIndex].WaitingArea.Add(DealCard());
+    }
+
+    public void Pin()
+    {
+        actions.Insert(actionIndex + 1, new Action(ActionType.Tailor, "Take tailor action [pinwheel]", ActionType.Work));
+    }
+
+    public void Stool()
+    {
         players[currentPlayerIndex].WaitingArea.Add(DealCard());
     }
 }

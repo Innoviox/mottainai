@@ -39,7 +39,7 @@ To MVP:
    - [x] Lampshade
    - [x] Mask
    - [x] Pillar
-   - [ ] Pin
+   - [x] Pin
    - [x] Pinwheel
    - [ ] Plane
    - [ ] Poem
@@ -52,7 +52,7 @@ To MVP:
    - [ ] Sketch
    - [ ] Socks
    - [ ] Statue
-   - [ ] Stool
+   - [x] Stool
    - [x] Straw
    - [ ] Sword
    - [ ] Tablet

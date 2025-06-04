@@ -98,6 +98,8 @@ public enum ActionType
     Doll,
     Gong,
     Pinwheel,
+    Poem,
+    Stool,
 }
 
 
@@ -124,11 +126,11 @@ public class Action
 
     public bool IsTask()
     {
-        return Type == ActionType.Clerk ||
+        return (Type == ActionType.Clerk ||
                Type == ActionType.Tailor ||
                Type == ActionType.Monk ||
                Type == ActionType.Potter ||
-               Type == ActionType.Smith;
+               Type == ActionType.Smith) && SecondaryType == ActionType.Dummy;
     }
 }
 

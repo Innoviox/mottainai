@@ -186,7 +186,7 @@ public class GameObject : MonoBehaviour
             else if (hitTransform.name.StartsWith("Button_No"))
             {
                 Debug.Log("[gameobject] Clicked No button");
-                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop || game.currentAction.Type == ActionType.Daidoro || game.currentAction.Type == ActionType.DeckOfCards || game.currentAction.Type == ActionType.Gong || game.currentAction.Type == ActionType.Pinwheel)
+                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop || game.currentAction.Type == ActionType.Daidoro || game.currentAction.Type == ActionType.DeckOfCards || game.currentAction.Type == ActionType.Gong || game.currentAction.Type == ActionType.Pinwheel || game.currentAction.Type == ActionType.Poem || game.currentAction.Type == ActionType.Pin || game.currentAction.Type == ActionType.Stool)
                 {
                     Tick();
                 }
@@ -230,15 +230,25 @@ public class GameObject : MonoBehaviour
                     game.Gong();
                     Tick("clicked gong");
                 }
+                else if (item.ToUpper() == "PIN")
+                {
+                    game.Pin();
+                    Tick("clicked pin");
+                }
+                else if (item.ToUpper() == "STOOL")
+                {
+                    game.Stool();
+                    Tick("clicked stool");
+                }
                 else if (hitTransform.name.StartsWith("Button_Return"))
                 {
-                    string item = hitTransform.name.Split("_")[2];
                     if (game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop)
                     {
                         game.StartCloak();
                     }
                 }
             }
+        }
     }
 
 
