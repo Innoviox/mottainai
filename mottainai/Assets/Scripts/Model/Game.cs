@@ -371,6 +371,16 @@ public class Game
             zones.Add(players[currentPlayerIndex].GetZone("Deck of Cards", new List<Button> { Button.Yes, Button.No }));
         }
 
+        if (action.Type == ActionType.Gong)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Gong", new List<Button> { Button.Yes, Button.No }));
+        }
+
+        if (action.Type == ActionType.Pinwheel)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Pinwheel", new List<Button> { Button.No }));
+        }
+
         switch (action.Type)
         {
             case ActionType.Dummy:
@@ -392,6 +402,7 @@ public class Game
                 }
                 break;
             case ActionType.Tailor:
+            case ActionType.Pinwheel:
                 for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
                 {
                     zones.Add(new Zone(ZoneType.TailorReturn, i));
@@ -510,6 +521,13 @@ public class Game
                 newActions.Add(new Action(ActionType.Daidoro, "Optionally perform daidoro action", ActionType.Work));
             }
         }
+        else if (action.Type == ActionType.AtNight)
+        {
+            if (players[currentPlayerIndex].HasWork("Pinwheel"))
+            {
+                newActions.Add(new Action(ActionType.Pinwheel, "Optionally perform pinwheel action", ActionType.Work));
+            }
+        }
 
         return newActions;
     }
@@ -559,6 +577,11 @@ public class Game
     public void Pray()
     {
         players[currentPlayerIndex].WaitingArea.Add(DealCard());
+
+        if (players[currentPlayerIndex].HasWork("Gong"))
+        {
+            actions.Insert(actionsIndex + 1, new Action(ActionType.Gong, "Optionally activate gong", ActionType.Work));
+        }
     }
 
     public void Potter(int index)
@@ -739,5 +762,27 @@ public class Game
                 break;
             }
         }
+    }
+
+    public void Gong()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            players[currentPlayerIndex].WaitingArea.Add(DealCard());
+        }
+
+        Zone gongZone = players[currentPlayerIndex].GetZone("Gong");
+        List<Card> list = gongZone.Type == ZoneType.Gallery ? players[currentPlayerIndex].Temple.Gallery : players[currentPlayerIndex].Temple.GiftShop;
+        Card gong = list[gongZone.Value];
+        list.RemoveAt(gongZone.Value);
+        players[currentPlayerIndex].WaitingArea.Add(gong);
+    }
+
+    public void Pinwheel(int index)
+    {
+        Card pinwheelCard = players[currentPlayerIndex].Hand[index];
+        players[currentPlayerIndex].Hand.RemoveAt(index);
+        deck.Add(pinwheelCard);
+        players[currentPlayerIndex].WaitingArea.Add(DealCard());
     }
 }

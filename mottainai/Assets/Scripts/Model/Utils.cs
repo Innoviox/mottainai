@@ -96,6 +96,8 @@ public enum ActionType
     DeckOfCards,
     Daidoro,
     Doll,
+    Gong,
+    Pinwheel,
 }
 
 

@@ -31,7 +31,7 @@ To MVP:
    - [ ] Fountain
    - [ ] Frog
    - [ ] Go Set
-   - [ ] Gong
+   - [x] Gong
    - [ ] Handkerchief
    - [x] Haniwa
    - [ ] Jar
@@ -40,7 +40,7 @@ To MVP:
    - [x] Mask
    - [x] Pillar
    - [ ] Pin
-   - [ ] Pinwheel
+   - [x] Pinwheel
    - [ ] Plane
    - [ ] Poem
    - [ ] Puppet

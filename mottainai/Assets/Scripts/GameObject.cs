@@ -165,6 +165,12 @@ public class GameObject : MonoBehaviour
                 game.TailorReturn(index);
                 Tick(reason: "removing deck highlight", tickGame: false);
             }
+            else if (game.currentAction.Type == ActionType.Pinwheel && hitTransform.name.StartsWith("TailorHighlight_"))
+            {
+                int index = int.Parse(hitTransform.name.Split('_')[1]);
+                game.Pinwheel(index);
+                Tick();
+            }
             else if (game.currentAction.Type == ActionType.Tailor && hitTransform.name.StartsWith("CardHighlight_Task_"))
             {
                 game.Tailor();
@@ -180,7 +186,7 @@ public class GameObject : MonoBehaviour
             else if (hitTransform.name.StartsWith("Button_No"))
             {
                 Debug.Log("[gameobject] Clicked No button");
-                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop || game.currentAction.Type == ActionType.Daidoro || game.currentAction.Type == ActionType.DeckOfCards)
+                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop || game.currentAction.Type == ActionType.Daidoro || game.currentAction.Type == ActionType.DeckOfCards || game.currentAction.Type == ActionType.Gong || game.currentAction.Type == ActionType.Pinwheel)
                 {
                     Tick();
                 }
@@ -218,6 +224,11 @@ public class GameObject : MonoBehaviour
                 {
                     game.DeckOfCards();
                     Tick("clicked deck of cards");
+                }
+                else if (item.ToUpper() == "GONG")
+                {
+                    game.Gong();
+                    Tick("clicked gong");
                 }
                 else if (hitTransform.name.StartsWith("Button_Return"))
                 {
