@@ -20,7 +20,7 @@ To MVP:
    - [ ] Crane
    - [ ] Cup
    - [x] Curtain
-   - [ ] Daidoro
+   - [x] Daidoro
    - [ ] Deck of Cards
    - [ ] Dice
    - [ ] Doll

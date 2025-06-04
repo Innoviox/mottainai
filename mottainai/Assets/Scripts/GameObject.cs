@@ -173,7 +173,7 @@ public class GameObject : MonoBehaviour
             else if (hitTransform.name.StartsWith("Button_No"))
             {
                 Debug.Log("[gameobject] Clicked No button");
-                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop)
+                if (game.currentAction.Type == ActionType.Amulet || game.currentAction.Type == ActionType.Bowl || game.currentAction.Type == ActionType.StartCloakGallery || game.currentAction.Type == ActionType.StartCloakGiftShop || game.currentAction.Type == ActionType.Daidoro || game.currentAction.Type == ActionType.DeckOfCards)
                 {
                     Tick();
                 }
@@ -186,20 +186,31 @@ public class GameObject : MonoBehaviour
             else if (hitTransform.name.StartsWith("Button_Yes"))
             {
                 string item = hitTransform.name.Split("_")[2];
-                if (item == "Bell")
+                Debug.Log("[gameobject] Clicked Yes button for item: " + item);
+                if (item.ToUpper() == "BELL")
                 {
                     game.Bell();
                     Tick("clicked bell");
                 }
-                else if (item == "Bowl")
+                else if (item.ToUpper() == "BOWL")
                 {
                     game.Bowl();
                     Tick("Clicked bowl");
                 }
-                else if (item == "Chopsticks")
+                else if (item.ToUpper() == "CHOPSTICKS")
                 {
                     game.Chopsticks(true);
                     Tick("clicked chopsticks yes");
+                }
+                else if (item.ToUpper() == "DAIDORO")
+                {
+                    game.Daidoro();
+                    Tick("clicked daidoro");
+                }
+                else if (item.ToUpper() == "DECK OF CARDS")
+                {
+                    game.DeckOfCards();
+                    Tick("clicked deck of cards");
                 }
             }
             else if (hitTransform.name.StartsWith("Button_Return"))

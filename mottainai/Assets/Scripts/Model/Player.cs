@@ -198,7 +198,7 @@ public class Player
     {
         foreach (Card card in Temple.GiftShop)
         {
-            if (card.Name == work)
+            if (card.Name.ToLower() == work.ToLower())
             {
                 return true;
             }
@@ -206,7 +206,7 @@ public class Player
 
         foreach (Card card in Temple.Gallery)
         {
-            if (card.Name == work)
+            if (card.Name.ToLower() == work.ToLower())
             {
                 return true;
             }

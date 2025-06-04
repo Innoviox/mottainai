@@ -93,6 +93,8 @@ public enum ActionType
     StartCloakGallery, // i forgot about Action.Value when I made these but it's too late now
     StartCloakGiftShop,
     EndCloak,
+    DeckOfCards,
+    Daidoro,
 }
 
 public class Action

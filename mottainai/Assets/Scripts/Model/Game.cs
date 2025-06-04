@@ -337,6 +337,11 @@ public class Game
             zones.Add(new Zone(ZoneType.GiftShop, players[currentPlayerIndex].Temple.GiftShop.Count - 1, new List<Button> { Button.Return }));
         }
 
+        if (action.Type == ActionType.Daidoro)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Daidoro", new List<Button> { Button.Yes, Button.No }));
+        }
+
         if (action.Type == ActionType.EndCloak)
         {
             for (int i = 0; i < players[currentPlayerIndex].Hand.Count; i++)
@@ -346,6 +351,11 @@ public class Game
                     zones.Add(new Zone(ZoneType.Hand, i));
                 }
             }
+        }
+
+        if (action.Type == ActionType.DeckOfCards)
+        {
+            zones.Add(players[currentPlayerIndex].GetZone("Deck of Cards", new List<Button> { Button.Yes, Button.No }));
         }
 
         switch (action.Type)
@@ -472,7 +482,15 @@ public class Game
         }
         else if (action.Type == ActionType.InTheMorning)
         {
-            newActions.Add(new Action(ActionType.Bowl, "Optionally perform bowl action", ActionType.Work));
+            if (players[currentPlayerIndex].HasWork("Bowl"))
+            {
+                newActions.Add(new Action(ActionType.Bowl, "Optionally perform bowl action", ActionType.Work));
+            }
+
+            if (players[currentPlayerIndex].HasWork("Daidoro"))
+            {
+                newActions.Add(new Action(ActionType.Daidoro, "Optionally perform daidoro action", ActionType.Work));
+            }
         }
 
         return newActions;
@@ -553,7 +571,8 @@ public class Game
 
     public void StartCraft(int index)
     {
-        Action act = new Action(ActionType.ChooseSide, "Choose side for crafting", ActionType.Dummy);
+        ActionType secondaryType = currentAction.Type == ActionType.Smith ? ActionType.Smith : ActionType.Dummy;
+        Action act = new Action(ActionType.ChooseSide, "Choose side for crafting", secondaryType);
         act.Value = index;
         actions.Insert(actionIndex + 1, act);
         NeedTick = true;
@@ -585,6 +604,10 @@ public class Game
             actions.Insert(actionIndex + 1, new Action(ActionType.Amulet, "Optionally activate amulet", ActionType.Work));
         }
 
+        if (card.Material == Material.Paper && currentAction.SecondaryType == ActionType.Smith && players[currentPlayerIndex].HasWork("Deck of Cards"))
+        {
+            actions.Insert(actionIndex + 1, new Action(ActionType.DeckOfCards, "Optionally activate deck of cards", ActionType.Dummy));
+        }
     }
 
     public void Clerk(int index)
@@ -670,5 +693,18 @@ public class Game
         }
 
         NeedTick = true;
+    }
+
+    public void Daidoro()
+    {
+        while (floor.Count < 3 && deck.Count > 0)
+        {
+            floor.Add(DealCard());
+        }
+    }
+
+    public void DeckOfCards()
+    {
+        players[currentPlayerIndex].WaitingArea.Add(DealCard());
     }
 }
